@@ -82,11 +82,14 @@ Reach for the **most specific** tool first; fall back to the broad ones.
 | Need | Tool |
 |---|---|
 | Site-wide scores + CWV distribution | `get_crawl_summary` |
+| **Size-up: page counts per status bucket** | `get_crawl_status_summary` |
+| **Filter/target pages by any attribute** | `list_pages` (20+ filters — see below) |
 | **Fix-first, traffic-weighted** issue ranking | `get_issues_with_traffic` *(needs GSC)* |
 | Critical/high issues by urgency | `get_critical_issues` |
 | High-ROI low-effort wins | `get_quick_wins` |
 | All issues of one type, page list | `list_issues`, `get_issue_pages` |
 | Everything wrong on one page | `get_page_issues` |
+| robots.txt / sitemap.xml / SSL / **llms.txt** compliance | `get_site_analysis { type }` |
 | Full single-page report | `get_page_report`, `get_page_section`, `get_page_category_detail` |
 | Visual proof of a page | `get_page_screenshot` |
 | Duplicate titles/meta/content | `get_duplicates` |
@@ -96,6 +99,27 @@ Reach for the **most specific** tool first; fall back to the broad ones.
 | Sitemap coverage gaps | `get_sitemap_coverage` |
 | Site structure / orphans / depth | `get_site_graph` |
 | Device parity (mobile vs desktop) | `get_device_comparison`, `get_device_url_gaps` |
+
+**Size-up → filter → drill (the efficient per-page path).** Before fanning out
+`get_page_issues` page-by-page, narrow the set first:
+
+1. `get_crawl_status_summary` → page counts per bucket (title/meta/h1/canonical/
+   CWV/indexability). Tells you *which* problem is biggest before you spend calls.
+2. `list_pages` → pull exactly the pages in the worst bucket. It takes 20+
+   filters — `titleStatus`, `metaDescStatus`, `h1Status`, `cwvStatus`,
+   `indexabilityStatus`, `isThinContent`, `isSoft404`, `orphanPage`,
+   `hasMissingTitle/MetaDesc/H1`, `minScore`/`maxScore`, `minIssueCount` — plus
+   `sortBy` (`lcp`, `cls`, `inp`, `linkDepth`, `inboundLinkCount`, `pageWeight`,
+   `issueCount`, …) and a `category` projection. Example: every thin, indexable
+   page sorted by inbound links — `list_pages { isThinContent:true,
+   indexabilityStatus:"indexable", sortBy:"inboundLinkCount" }`.
+3. Only then fan out `get_page_issues` / `get_page_category_detail` over that
+   targeted list (§6). This turns a blind page-by-page sweep into a precise one.
+
+**Site-level checks** (one call each, no page loop): `get_site_analysis { type }`
+with `type` = `robots` (robots.txt), `sitemap` (sitemap.xml), `ssl` (cert), or
+`llms` (**llms.txt** — the LLM/AEO discoverability file). Run the `llms` check in
+any audit that claims AEO coverage.
 
 ### Content & links (latest run)
 | Need | Tool |
@@ -196,3 +220,6 @@ ranking/synthesis in the main thread so the ROI model stays consistent.
 - Google tool with no GSC → degrade to severity×ease, note the lost traffic signal.
 - Crawl still running (`list_active_crawls`) → offer to `wait_for_crawl` or read
   the previous completed crawl meanwhile.
+- Crawl failed / suspiciously thin / weird coverage → `get_crawl_logs { type:
+  "error" }` (or `"warning"`/`"discovered"`) to see what the crawler hit
+  (blocked paths, timeouts, redirects) before re-running.

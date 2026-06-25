@@ -41,13 +41,19 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    - **Duplicates/canonical:** `get_duplicates`.
    - **Indexation/sitemap:** `get_sitemap_coverage`; spot-check key URLs with
      `get_url_inspection` if GSC is connected.
+   - **Site-level files:** `get_site_analysis` for `robots`, `sitemap`, `ssl`,
+     and **`llms`** (llms.txt — the LLM/AEO discoverability file; required for
+     any audit that claims AEO coverage).
    - **Mobile parity:** `get_device_comparison { crawlId }` and
      `get_device_url_gaps`.
    - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema" }`
      / `{ category: "aeo" }` to learn the rubric, then `get_issue_pages` for the
      ones flagged on this crawl.
-5. **Drill the top at-risk pages in parallel.** Take the top ~15–20 pages from
-   step 3 and **dispatch parallel subagents**, each running
+5. **Target, then drill the top at-risk pages in parallel.** First
+   `get_crawl_status_summary` to see the biggest broken bucket, then
+   `list_pages` (filtered + sorted, e.g. `{ minIssueCount:1,
+   sortBy:"inboundLinkCount" }`) to pull the right ~15–20 pages — union the top
+   at-risk pages from step 3. Then **dispatch parallel subagents**, each running
    `get_page_issues { crawlId, pageId }` (and `get_page_report` if needed) for
    one page, returning a compact finding list. Synthesize in the main thread.
 6. **Rank + group** every finding by `priority_score` (FOUNDATIONS §4) into

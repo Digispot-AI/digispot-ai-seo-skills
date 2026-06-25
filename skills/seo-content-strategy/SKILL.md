@@ -33,6 +33,10 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
 4. **Cannibalization — pages fighting each other:**
    `get_content_opportunities { section: "cannibalization" }`. For each clash,
    decide: merge, differentiate intent, or canonicalize one to the other.
+   **Thin pages to expand or merge:** `list_pages { isThinContent:true,
+   indexabilityStatus:"indexable" }` — these are existing pages that need depth
+   before they can carry a cluster; rank by `sortBy:"inboundLinkCount"` so you
+   reinforce the ones already getting link equity rather than rewriting orphans.
 5. **Weight by demand (if GSC connected):** cross-reference gap keywords with
    `get_gsc_import_top_queries` to prioritize topics with proven impressions,
    and check `get_google_opportunities` so you don't propose content that

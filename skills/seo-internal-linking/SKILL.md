@@ -26,7 +26,11 @@ part → `/seo-striking-distance` (which also calls link insights).
 
 1. **Scope + crawl** (FOUNDATIONS §1–2).
 2. **Read the structure:** `get_site_graph { crawlId }` — page/link counts,
-   crawl depth, orphan pages, indexability. This frames the problem.
+   crawl depth, orphan pages, indexability. This frames the problem. For the
+   exact actionable lists behind those counts, pull `list_pages` directly:
+   `{ orphanPage:true }` (the orphans to rescue) and
+   `{ sortBy:"linkDepth", sortOrder:"desc" }` (the most-buried pages first) —
+   add `sortBy:"inboundLinkCount"` to rank by how under-linked each one is.
 3. **Get linking suggestions by failure reason:**
    - `get_link_insights { section:"suggestions", reason:"orphan" }` — pages with
      no inbound internal links.
