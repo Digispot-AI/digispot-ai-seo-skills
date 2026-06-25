@@ -1,0 +1,198 @@
+# SEO MCP Foundations
+
+The shared operating procedure for every `digispot-seo` skill. Read this first.
+It encodes how an experienced SEO consultant runs an engagement against the
+Digispot AI Spider, so the skill that loaded it can act like one.
+
+The `digispot-seo` MCP is **locked to one project per repo** (bound via
+`--project` in `.mcp.json`). Every tool acts only on that project.
+
+---
+
+## 0. Operating principles
+
+1. **ROI first.** Rank every finding by `traffic-at-risk × severity × ease`.
+   Never present findings in crawl order. The first thing you ship is the page
+   that bleeds the most traffic for the least effort.
+2. **Diagnose + propose, never silently edit.** Default output is a
+   *paste-ready* fix plan. Touch the site repo only if the user says "apply".
+3. **Cite everything.** Each finding = URL + traffic/impressions + severity +
+   the exact fix. No vague "improve your titles" advice.
+4. **Spend quota wisely.** `get_mcp_scope`, `list_issue_definitions`,
+   `get_issue_definition`, `list_issue_definitions` are **free**. Crawls cost.
+   Reuse the latest completed crawl unless it's stale.
+5. **Portable.** Never hardcode a project ID or crawlId. Resolve both at
+   runtime, every run.
+
+---
+
+## 1. Scope resolution (always step 1)
+
+```
+get_mcp_scope            → confirm which project this repo is bound to
+```
+
+State the project name back to the user in one line. If it's clearly the wrong
+project for what they asked, stop and tell them to open the correct repo (each
+repo's `.mcp.json` binds one project).
+
+---
+
+## 2. Crawl freshness (always step 2)
+
+A "crawl" is one audit snapshot. Most tools need a `crawlId`.
+
+```
+list_crawls { status: "completed", limit: 5 }   → newest completed crawl
+```
+
+Decide freshness:
+
+- **Fresh enough** (crawl ≤ 7 days old, or the user didn't ask for new data):
+  use that `crawlId`. Tell the user the crawl date you're using.
+- **Stale / none / user asked for fresh data:**
+  ```
+  start_crawl { }                 → returns device group + crawl IDs
+  wait_for_crawl { crawlId }      → blocks until done (raise timeoutSec for big sites)
+  ```
+  `start_crawl` device modes (desktop/mobile/tablet) come from project config.
+  For Core Web Vitals / JS-rendered sites add `useBrowserFetcher: true`.
+  For full indexation coverage add `wideSitemapDiscovery: true`.
+
+Never invent a crawlId. If `list_crawls` is empty and the user won't authorize a
+crawl, stop and say so.
+
+---
+
+## 3. Tool-selection map
+
+Reach for the **most specific** tool first; fall back to the broad ones.
+
+### Orientation (free / cheap, no crawlId)
+| Need | Tool |
+|---|---|
+| Confirm project binding | `get_mcp_scope` |
+| Letter-grade health snapshot | `get_project_health` |
+| Score trend across crawls | `get_project_trends` |
+| The full issue rubric (what Digispot can detect) | `list_issue_definitions` (→ `detail:true` per category) |
+| One issue's what/why/fix | `get_issue_definition` |
+| Crawl history & status | `list_crawls`, `get_crawl_status_summary`, `list_active_crawls` |
+
+### Per-crawl audit
+| Need | Tool |
+|---|---|
+| Site-wide scores + CWV distribution | `get_crawl_summary` |
+| **Fix-first, traffic-weighted** issue ranking | `get_issues_with_traffic` *(needs GSC)* |
+| Critical/high issues by urgency | `get_critical_issues` |
+| High-ROI low-effort wins | `get_quick_wins` |
+| All issues of one type, page list | `list_issues`, `get_issue_pages` |
+| Everything wrong on one page | `get_page_issues` |
+| Full single-page report | `get_page_report`, `get_page_section`, `get_page_category_detail` |
+| Visual proof of a page | `get_page_screenshot` |
+| Duplicate titles/meta/content | `get_duplicates` |
+| Redirect chains / loops | `get_redirects` |
+| Broken internal/external links | `get_broken_links` |
+| Robots-blocked URLs | `get_robots_blocked_urls` |
+| Sitemap coverage gaps | `get_sitemap_coverage` |
+| Site structure / orphans / depth | `get_site_graph` |
+| Device parity (mobile vs desktop) | `get_device_comparison`, `get_device_url_gaps` |
+
+### Content & links (latest run)
+| Need | Tool |
+|---|---|
+| New pages to write, topic clusters, cannibalization | `get_content_opportunities` (`section: gaps\|clusters\|cannibalization`) |
+| Internal links to add, hubs, anchor profiles | `get_link_insights` (`section: suggestions\|hubs\|anchors`, `reason: orphan\|low-inbound\|deep`) |
+| Broader content opportunity list | `get_content_opportunities`, `get_quick_wins` |
+
+### Google (GSC / GA4 — need the integration connected)
+| Need | Tool |
+|---|---|
+| GSC × audit, ranked by combined opportunity | `get_google_opportunities` |
+| High-traffic pages that also have issues | `get_high_traffic_at_risk` |
+| Striking-distance queries (pos 8-20) | `get_gsc_import_top_queries { strikingDistance: true }` |
+| Top pages by clicks/impressions | `get_gsc_import_top_pages` |
+| GA4 section/traffic data | `get_ga4_sections`, `get_google_metrics` |
+| Live single-URL index status | `get_url_inspection` |
+| Imports available | `list_gsc_imports` |
+
+### Comparison (verifying fixes worked)
+| Need | Tool |
+|---|---|
+| Two crawls side-by-side | `compare_audits { baselineCrawlId, comparisonCrawlId }` |
+| What changed since baseline | `get_audit_deltas` |
+
+If a Google-dependent tool returns "no GSC data", say so plainly and fall back
+to crawl-only severity (you lose the traffic weight but can still rank by
+severity × ease). Tell the user connecting GSC unlocks traffic-weighted ranking.
+
+---
+
+## 4. Prioritization formula
+
+```
+priority_score  =  traffic_at_risk  ×  severity_weight  ×  ease
+```
+
+- **traffic_at_risk** — GSC clicks/impressions on the affected URL(s).
+  Sources: `get_issues_with_traffic`, `get_high_traffic_at_risk`,
+  `get_google_opportunities`. No GSC → treat as 1 and note the blind spot.
+- **severity_weight** — critical=4, high=3, medium=2, low=1
+  (from the issue's severity in `list_issue_definitions` / the issue rows).
+- **ease** — inverse effort: a title/meta/canonical/redirect edit = high ease (3);
+  template/schema change = medium (2); new content / re-architecture = low (1).
+
+Always present findings **sorted by `priority_score` descending**, grouped into
+**Ship now (this week) / Plan (this sprint) / Backlog**.
+
+When GSC is connected, `get_issues_with_traffic` and `get_google_opportunities`
+already bake most of this in — lead with them and you've done 80% of the ranking.
+
+---
+
+## 5. Output conventions
+
+Every finding follows this schema:
+
+```
+### <Issue title>  ·  <severity>  ·  ~<N> clicks/mo at risk  ·  ease: high|med|low
+**Where:** <url(s)>  (N pages affected)
+**Why it matters:** <one line — the ranking/traffic consequence>
+**Fix:**
+<paste-ready remediation — see formats below>
+```
+
+Paste-ready fix formats:
+
+- **Title tag** — give the exact replacement string, ≤60 chars, note char count.
+- **Meta description** — exact string, ≤155 chars, note char count.
+- **Canonical** — the exact `<link rel="canonical" href="…">` and which URL wins.
+- **Redirect** — a `from → to (301)` map, ready for the host's redirect config.
+- **Schema/AEO** — a complete, valid JSON-LD `<script type="application/ld+json">`
+  block, filled with the page's real data (not placeholders).
+- **Internal link** — `source URL → target URL`, exact anchor text, and where on
+  the source page it should sit.
+- **Content gap** — title, search intent, target keywords, H2 outline, and which
+  existing pages it should interlink with.
+
+Close every report with a **"Verify after shipping"** line: re-crawl, then run
+`/seo-progress-report` (or `compare_audits`) to confirm the issue cleared.
+
+---
+
+## 6. Parallelism
+
+When a workflow needs per-page detail across many pages (e.g. pulling
+`get_page_issues` for the top 20 at-risk pages), **dispatch parallel subagents**
+(one per page or per batch) rather than reading them serially. Each subagent
+returns a compact structured finding; you synthesize and rank. Keep the
+ranking/synthesis in the main thread so the ROI model stays consistent.
+
+---
+
+## 7. Failure handling
+
+- Tool says wrong/locked project → stop, tell the user to open the right repo.
+- Empty `list_crawls` and no crawl authorized → stop, explain.
+- Google tool with no GSC → degrade to severity×ease, note the lost traffic signal.
+- Crawl still running (`list_active_crawls`) → offer to `wait_for_crawl` or read
+  the previous completed crawl meanwhile.

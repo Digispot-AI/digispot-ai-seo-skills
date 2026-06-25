@@ -1,0 +1,4 @@
+# Foundation copies are generated into each skill dir at install time.
+# _shared/seo-mcp-foundations.md is the single source of truth.
+skills/*/FOUNDATIONS.md
+.DS_Store
