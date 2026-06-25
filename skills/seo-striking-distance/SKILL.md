@@ -69,13 +69,13 @@ GSC window: <dates> · queries pos 8-20: <n> · opportunity pages: <n>
 > User: `/seo-striking-distance`
 
 1. Scope confirmed; `list_gsc_imports` → GSC present.
-2. `get_gsc_import_top_queries {strikingDistance:true}` → "oral cancer surgery
-   cost" sits pos 11, 2,400 imp/mo, 40 clicks.
-3. `get_google_opportunities` → the cost page tops the list (high imp × thin
+2. `get_gsc_import_top_queries {strikingDistance:true}` → "<service> cost" sits
+   pos 11, 2,400 imp/mo, 40 clicks.
+3. `get_google_opportunities` → the pricing page tops the list (high imp × thin
    content × pos 11).
 4. Subagent `get_page_issues` on that page → no pricing schema, title is generic
-   ("Treatments"), only 1 internal link.
-5. Plan: title → "Oral Cancer Surgery Cost in <city> — Transparent Pricing"
-   (57 chars); add H2s "What affects the cost", "Insurance & EMI"; add 3
-   internal links with anchor "oral cancer surgery cost"; add `MedicalProcedure`
-   + `Offer` JSON-LD. Expected: pos 11 → page 1 for the head query.
+   ("Services"), only 1 internal link.
+5. Plan: title → "<Service> Cost in <city> — Transparent Pricing" (≤60 chars);
+   add H2s "What affects the cost", "Payment & financing"; add 3 internal links
+   with anchor "<service> cost"; add `Service` + `Offer` JSON-LD. Expected:
+   pos 11 → page 1 for the head query.

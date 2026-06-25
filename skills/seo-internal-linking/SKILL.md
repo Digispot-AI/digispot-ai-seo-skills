@@ -73,9 +73,9 @@ Pages: <n> · orphans: <n> · pages >3 clicks deep: <n> · hub pages: <list>
 1. Scope + crawl confirmed.
 2. `get_site_graph` → 64 pages, 5 orphans, 9 pages deeper than 3 clicks.
 3. `get_link_insights {section:"suggestions",reason:"orphan"}` → the new
-   "staging" page has 0 inbound; suggested anchor "oral cancer stages",
-   confidence 0.9, from the symptoms page.
-4. `section:"hubs"` → the treatments page is the top hub (28 inbound).
-5. Plan: link staging ← symptoms (anchor "oral cancer stages") and ← treatments
-   hub (anchor "cancer staging"); pull the cost page from depth 4 to 2 by
-   linking it from the treatments hub.
+   "how it works" page has 0 inbound; suggested anchor "how <service> works",
+   confidence 0.9, from the overview page.
+4. `section:"hubs"` → the services page is the top hub (28 inbound).
+5. Plan: link the new page ← overview (anchor "how <service> works") and ←
+   services hub (anchor "<service> process"); pull the pricing page from depth 4
+   to 2 by linking it from the services hub.

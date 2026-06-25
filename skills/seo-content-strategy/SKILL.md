@@ -69,13 +69,12 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
 > User: `/seo-content-strategy`
 
 1. Scope + crawl confirmed.
-2. `get_content_opportunities {section:"gaps",priority:"high"}` → gap: "Oral
-   cancer staging explained" — extends the symptoms page, target "oral cancer
-   stages".
-3. `section:"clusters"` → "Diagnosis" pillar is thin (only 1 page).
-4. `section:"cannibalization"` → two pages both target "mouth cancer treatment"
-   → recommend merging the weaker into the stronger with a 301.
-5. GSC: "oral cancer stages" shows 1,800 imp with no ranking page → strong
+2. `get_content_opportunities {section:"gaps",priority:"high"}` → gap: "How <service>
+   works, explained" — extends the overview page, target "<service> process".
+3. `section:"clusters"` → the "How it works" pillar is thin (only 1 page).
+4. `section:"cannibalization"` → two pages both target "<service>" → recommend
+   merging the weaker into the stronger with a 301.
+5. GSC: "<service> process" shows 1,800 imp with no ranking page → strong
    Write-now.
-6. Brief for the staging page: intent informational, H2s by stage I–IV, TNM
-   explainer, interlink to symptoms + treatments + the new cost page.
+6. Brief for the new page: intent informational, step-by-step H2s, an FAQ block,
+   interlink to the overview + services + the new pricing page.

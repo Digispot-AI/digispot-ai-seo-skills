@@ -78,8 +78,8 @@ Score <a> → <b> (<+/-n>) · Issues fixed: <n> · New issues: <n> · Grade <x>�
    issues fixed (all 6 meta fixes + the redirect chain), 2 new (a broken link
    from a new page).
 4. `get_project_trends` → up 3 crawls running.
-5. GSC: the FAQ page clicks 600→760, "oral cancer faq" pos 9→6.
+5. GSC: the FAQ page clicks 600→760, "<brand> faq" pos 9→6.
 6. Report credits the meta fix for the FAQ lift, flags the 2 new broken links as
-   the next Ship-now, notes the staging page still isn't indexed
+   the next Ship-now, notes the new "how it works" page still isn't indexed
    (`get_url_inspection` → "Discovered, not indexed" → needs internal links →
    route to `/seo-internal-linking`).

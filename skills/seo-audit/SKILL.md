@@ -83,14 +83,14 @@ Re-crawl, then /seo-progress-report against crawl <date> to confirm fixes cleare
 
 > User: `/seo-audit`
 
-1. `get_mcp_scope` → "Auditing **Mouth cancer surgeon**."
+1. `get_mcp_scope` → "Auditing **Acme Clinic**."
 2. `list_crawls {status:"completed",limit:5}` → newest is 2 days old → reuse it.
 3. `get_project_health` → C+, improving. `get_crawl_summary` → 72/100, 18% LCP fail.
 4. `get_issues_with_traffic` → "Missing meta description" tops it: 9 pages,
-   ~340 clicks/mo. `get_high_traffic_at_risk {minClicks:10}` → the treatments
+   ~340 clicks/mo. `get_high_traffic_at_risk {minClicks:10}` → the services
    page (1.2k clicks) has a duplicate H1 + no schema.
 5. Sweep: `get_duplicates` (4 dup titles), `get_redirects` (1 chain),
    `get_device_comparison` (mobile LCP 3.1s vs 1.9s desktop).
 6. Fan out `get_page_issues` over the top 15 pages via subagents.
-7. Output: treatments page → exact 58-char title, 152-char meta, MedicalProcedure
+7. Output: services page → exact 58-char title, 152-char meta, a `Service`
    JSON-LD block, and the redirect chain collapsed to a single 301.

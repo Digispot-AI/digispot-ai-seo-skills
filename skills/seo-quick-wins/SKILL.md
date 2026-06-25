@@ -62,5 +62,5 @@ Ranked by ROI · all shippable this week · GSC signal: <on/off>
 4. Rank: FAQ meta first (600 clicks, trivial), then the duplicate title on the
    contact page, etc.
 5. Output #1:
-   `Fix: <meta name="description" content="Oral cancer FAQs — symptoms, staging,
-   treatment options and recovery, answered by our surgical team."> (148 chars)`
+   `Fix: <meta name="description" content="Answers to common questions about our
+   services, pricing, booking and what to expect — straight from our team."> (142 chars)`
