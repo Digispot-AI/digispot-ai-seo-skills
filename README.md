@@ -1,18 +1,39 @@
 # Digispot AI SEO Skills
 
-Proven Claude Code **skills** that drive the [`digispot-seo`](https://digispot.ai)
-MCP server (Digispot AI Spider) like a senior SEO consultant — ROI-ranked,
-traffic-weighted, paste-ready fixes for **any** site bound to a Digispot project.
+Proven Claude Code **skills** that drive the **Digispot AI Spider** through its
+[`digispot-seo`](https://digispot.ai) MCP server like a senior SEO consultant —
+ROI-ranked, traffic-weighted, paste-ready fixes for **any website, any industry**.
 
 Invoke a skill, and Claude runs a disciplined workflow against the live MCP:
 resolve the project → find or run the right crawl → pull the data → rank by
 `traffic-at-risk × severity × ease` → hand you exact fixes (titles, meta,
 JSON-LD, redirect maps, internal-link targets) you can paste.
 
+> **Get the app → [downloads.digispot.ai](https://downloads.digispot.ai/)**
+> The Digispot AI Spider desktop app is the crawler and the MCP server these
+> skills talk to. Download it first, then install the skills below.
+
+## How it works
+
+```
+1. Download the Digispot AI Spider desktop app   → https://downloads.digispot.ai/
+     The app crawls your site and exposes the `digispot-seo` MCP server,
+     bound to your project via .mcp.json (--project).
+2. Clone this repo and run ./install.sh
+     Installs the six skills into Claude Code.
+3. Invoke a skill in Claude Code — e.g. /seo-audit
+     Claude drives the MCP and hands you a ranked, paste-ready fix plan.
+```
+
+Works the same on an e-commerce store, a SaaS site, a local-business site, a
+publisher, or a docs site — nothing in the skills is tied to a vertical.
+
 ## Requirements
 
-- Claude Code with the `digispot-seo` MCP configured in the repo's `.mcp.json`
-  (bound to one Digispot project via `--project`).
+- The **Digispot AI Spider** desktop app
+  ([downloads.digispot.ai](https://downloads.digispot.ai/)), which provides the
+  `digispot-seo` MCP server bound to one project per repo via `--project`.
+- Claude Code with that `digispot-seo` MCP configured in the repo's `.mcp.json`.
 - For traffic-weighted ranking: Google Search Console / GA4 connected in
   Digispot. Without it the skills still work, ranking by severity × ease.
 
@@ -59,7 +80,13 @@ All six share one operating procedure: [`_shared/seo-mcp-foundations.md`](_share
   sitemap) overlap in the router; they live as *dimensions inside `/seo-audit`*.
 - **Diagnose + propose by default** — skills never edit your site repo unless you
   say "apply".
-- **Portable** — no hardcoded project or crawl IDs; scope is resolved at runtime,
-  so the same skills work across every client repo.
+- **Portable** — no hardcoded project or crawl IDs, no vertical assumptions;
+  scope is resolved at runtime, so the same skills work across every site.
 
 See [`docs/specs/`](docs/specs/) for the full design spec.
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE). "Digispot" and "Digispot AI
+Spider" are trademarks of Digispot AI; the license grant does not include
+trademark rights (see [`NOTICE`](NOTICE)).

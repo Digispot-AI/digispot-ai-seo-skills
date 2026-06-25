@@ -83,7 +83,7 @@ Re-crawl, then /seo-progress-report against crawl <date> to confirm fixes cleare
 
 > User: `/seo-audit`
 
-1. `get_mcp_scope` → "Auditing **Acme Clinic**."
+1. `get_mcp_scope` → "Auditing **Example Co**."
 2. `list_crawls {status:"completed",limit:5}` → newest is 2 days old → reuse it.
 3. `get_project_health` → C+, improving. `get_crawl_summary` → 72/100, 18% LCP fail.
 4. `get_issues_with_traffic` → "Missing meta description" tops it: 9 pages,
