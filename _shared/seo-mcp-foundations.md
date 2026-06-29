@@ -220,6 +220,7 @@ ranking/synthesis in the main thread so the ROI model stays consistent.
 - Google tool with no GSC → degrade to severity×ease, note the lost traffic signal.
 - Crawl still running (`list_active_crawls`) → offer to `wait_for_crawl` or read
   the previous completed crawl meanwhile.
-- Crawl failed / suspiciously thin / weird coverage → `get_crawl_logs { type:
-  "error" }` (or `"warning"`/`"discovered"`) to see what the crawler hit
-  (blocked paths, timeouts, redirects) before re-running.
+- Crawl failed / suspiciously thin / weird coverage → `get_crawl_logs { crawlId,
+  limit }` to see what the crawler hit (blocked paths, timeouts, redirects, the
+  per-entry `type`) before re-running. Filter by entry type yourself in the
+  result — the tool returns all log types and takes only `crawlId` + `limit`.
