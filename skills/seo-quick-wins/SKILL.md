@@ -36,8 +36,8 @@ Reach for a sibling instead when: the user wants the *complete* picture →
    `{ hasMissingMetaDesc:true }`, `{ titleStatus:"missing,duplicate" }`,
    `{ h1Status:"missing" }` — each returns the exact paste-target pages, and
    `sortBy:"inboundLinkCount"` floats the highest-value ones first.
-4. **Rank** the survivors by `priority_score` (FOUNDATIONS §4).
-5. **Write the exact fix** for each (FOUNDATIONS §5). Quick wins are only quick
+4. **Rank** the survivors by `priority_score` (FOUNDATIONS §5).
+5. **Write the exact fix** for each (FOUNDATIONS §6). Quick wins are only quick
    if the user can paste them — no "consider revising".
 
 ## Output template

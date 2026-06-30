@@ -31,11 +31,18 @@ hand a stakeholder.
      pages added/removed, issues fixed vs newly introduced.
    - `get_audit_deltas` — the change detail.
 4. **Overlay the trend:** `get_project_trends { limit: 10 }` — is the score line
-   going up over several crawls, not just two points?
+   going up over several crawls, not just two points? Then `get_project_health`
+   for the current **letter grade + direction** — this populates the
+   `Grade <x>→<y>` headline (compare_audits/trends give the numeric score; the
+   grade comes from here).
 5. **Overlay real traffic (if GSC/GA4 connected):**
    - `get_gsc_import_top_pages` / `get_gsc_import_top_queries` — did clicks /
      positions move for the pages you fixed?
-   - `get_ga4_sections` / `get_google_metrics` — sessions/engagement trend.
+   - `get_ga4_sections` / `get_google_metrics` — sessions, **engagement rate**,
+     and avg engagement duration trend (GA4 bounce = 1 − engagement, so lead with
+     engagement rate; report bounce only if the stakeholder asks). These are UX
+     signals, **not confirmed ranking factors** — don't credit a rank move to
+     them, and pair engagement with conversion rate to stay interpretable.
    - `get_url_inspection { url }` — confirm a specific fixed page is now indexed /
      its canonical resolved.
 6. **Report:** what improved (tie each win to the fix that caused it), what

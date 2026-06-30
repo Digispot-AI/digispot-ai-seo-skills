@@ -41,11 +41,18 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    - **Duplicates/canonical:** `get_duplicates`.
    - **Indexation/sitemap:** `get_sitemap_coverage`; spot-check key URLs with
      `get_url_inspection` if GSC is connected.
+   - **Site architecture:** `get_site_graph` for orphan pages, link depth, and
+     non-indexable structure — a full audit covers architecture, not just pages.
    - **Site-level files:** `get_site_analysis` for `robots`, `sitemap`, `ssl`,
      and **`llms`** (llms.txt — the LLM/AEO discoverability file; required for
-     any audit that claims AEO coverage).
-   - **Mobile parity:** `get_device_comparison { crawlId }` and
-     `get_device_url_gaps`.
+     any audit that claims AEO coverage). These are **site-wide** — one call each
+     with any device's crawlId (FOUNDATIONS §3); don't run them per device.
+   - **GSC × audit correlation** (GSC connected): `get_google_opportunities` —
+     unifies traffic, severity, and rank proximity into one ranked opportunity
+     list. Pairs with `get_issues_with_traffic` from step 3.
+   - **Mobile parity:** `get_device_comparison { crawlId }` then
+     `get_device_url_gaps { deviceGroup }` (note: this one takes the
+     **deviceGroup**, not a crawlId — get it from `get_device_comparison`).
    - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema" }`
      / `{ category: "aeo" }` to learn the rubric, then `get_issue_pages` for the
      ones flagged on this crawl.
@@ -56,16 +63,16 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    at-risk pages from step 3. Then **dispatch parallel subagents**, each running
    `get_page_issues { crawlId, pageId }` (and `get_page_report` if needed) for
    one page, returning a compact finding list. Synthesize in the main thread.
-6. **Rank + group** every finding by `priority_score` (FOUNDATIONS §4) into
+6. **Rank + group** every finding by `priority_score` (FOUNDATIONS §5) into
    **Ship now / Plan / Backlog**.
-7. **Write paste-ready fixes** (FOUNDATIONS §5) for at least every "Ship now"
+7. **Write paste-ready fixes** (FOUNDATIONS §6) for at least every "Ship now"
    item — exact title/meta strings, canonical tags, redirect maps, JSON-LD.
 
 ## Output template
 
 ```
 # SEO Audit — <project> — crawl <date>
-**Grade:** <A–F> (<trend>)   **Site score:** <n>/100   **CWV:** <pass/fail mix>
+**Grade:** <A–F> (<trend>)   **Site score:** <n>/100   **CWV:** <% LCP optimal, grade A–F mix>
 **Pages crawled:** <n>   **GSC traffic signal:** <on/off>
 
 ## Top 5 fixes by ROI
@@ -73,7 +80,7 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
 …
 
 ## Ship now (this week)
-<finding blocks per FOUNDATIONS §5>
+<finding blocks per FOUNDATIONS §6>
 
 ## Plan (this sprint)
 …
@@ -91,11 +98,12 @@ Re-crawl, then /seo-progress-report against crawl <date> to confirm fixes cleare
 
 1. `get_mcp_scope` → "Auditing **Example Co**."
 2. `list_crawls {status:"completed",limit:5}` → newest is 2 days old → reuse it.
-3. `get_project_health` → C+, improving. `get_crawl_summary` → 72/100, 18% LCP fail.
+3. `get_project_health` → C+, improving. `get_crawl_summary` → 72/100, 64% of pages LCP-optimal.
 4. `get_issues_with_traffic` → "Missing meta description" tops it: 9 pages,
    ~340 clicks/mo. `get_high_traffic_at_risk {minClicks:10}` → the services
    page (1.2k clicks) has a duplicate H1 + no schema.
-5. Sweep: `get_duplicates` (4 dup titles), `get_redirects` (1 chain),
+5. Sweep: `get_duplicates` (4 dup titles), `get_redirects` (one 3-hop chain, by
+   inspecting per-URL `chainLength`), `get_site_graph` (6 orphan pages),
    `get_device_comparison` (mobile LCP 3.1s vs 1.9s desktop).
 6. Fan out `get_page_issues` over the top 15 pages via subagents.
 7. Output: services page → exact 58-char title, 152-char meta, a `Service`

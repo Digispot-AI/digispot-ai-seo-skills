@@ -31,6 +31,11 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
 3. **Correlate rank × on-page problem:**
    - `get_google_opportunities { crawlId, limit: 20 }` — the unified score
      (traffic × severity × rank proximity). This is the master list; lead here.
+   - `get_issues_with_traffic { crawlId }` — the on-page issues ranked by GSC
+     clicks-at-risk. This is the issue-side spine of "high-traffic pages that
+     have on-page issues" (the second half of this skill's purpose); cross it
+     with the opportunity list so a near-page-1 page with a fixable issue rises
+     to the top.
 4. **Diagnose each target page in parallel.** For the top ~15 opportunity pages,
    **dispatch parallel subagents** running `get_page_issues { crawlId, pageId }`
    (+ `get_page_report` for content depth) to find *why* it's stuck at 8–20:
@@ -42,7 +47,10 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
      query from step 2; outline what's missing).
    - **Internal links** — anchor-rich links *to* this page (cross-check with
      `get_link_insights { section:"suggestions" }`).
-   - **Schema** — the JSON-LD that earns rich results for the query type.
+   - **Schema** — JSON-LD for the query type. Promise a *rich result* only for
+     types Google still renders (Product/Review/Article/Recipe/Video/Org/
+     LocalBusiness/Event/Breadcrumb); FAQ/HowTo are AEO/extraction wins, not
+     rich-result wins (FOUNDATIONS §6).
 6. **Rank** by combined opportunity score; group **Ship now / Plan**.
 
 ## Output template
