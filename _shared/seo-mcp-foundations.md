@@ -173,7 +173,7 @@ any audit that claims AEO coverage.
 ### Google (GSC / GA4 — need the integration connected)
 | Need | Tool |
 |---|---|
-| GSC × audit, ranked by combined opportunity | `get_google_opportunities` |
+| **Four-layer verdict** (audit × search × GA4 behaviour), ranked | `get_google_opportunities` |
 | High-traffic pages that also have issues | `get_high_traffic_at_risk` |
 | Striking-distance queries (pos 8-20) | `get_gsc_import_top_queries { strikingDistance: true }` |
 | Top pages by clicks/impressions | `get_gsc_import_top_pages` |
@@ -284,6 +284,14 @@ your written analysis should reach the same conclusion.)
 **Bottom line:** never report a GA4 number without its "so what for this
 business." Sessions, top country, and channel mix are inputs — the deliverable
 is *whether that traffic can convert and what to do about it.*
+
+**Shortcut — `get_google_opportunities` already fuses all four layers per URL.**
+It ranks pages by audit × search × GA4 behaviour and emits the verdict for you:
+`ranks-but-bounces` (real sessions but high bounce → fix the PAGE, not the
+ranking), `hidden-gem` (strong engagement but under-shown → grow visibility),
+plus a site traffic-geography note for the relevance lens. Lead with this tool
+for "what should I fix next" — then use `get_ga4_sections` when you need the
+fuller geography/channel/landing detail behind it.
 
 ---
 
