@@ -177,9 +177,17 @@ any audit that claims AEO coverage.
 | High-traffic pages that also have issues | `get_high_traffic_at_risk` |
 | Striking-distance queries (pos 8-20) | `get_gsc_import_top_queries { strikingDistance: true }` |
 | Top pages by clicks/impressions | `get_gsc_import_top_pages` |
-| GA4 section/traffic data | `get_ga4_sections`, `get_google_metrics` |
+| GA4: audience, geography, channels, landing pages, engagement | `get_ga4_sections` |
+| GSC headline KPIs (clicks/impr/CTR/position) | `get_google_metrics` |
 | Live single-URL index status | `get_url_inspection` |
+| Google core/spam/Discover updates + outages in a window | `get_google_search_incidents { from, to }` |
 | Imports available | `list_gsc_imports` |
+
+`get_ga4_sections` returns more than headline numbers — it carries **top
+locations** (sessions by country), **traffic channels** (organic/direct/social/
+paid mix), **top landing pages** (with bounce + engaged time), a **channel
+trend** (is Organic growing?), and **native GA4 engagement rate**. Read it as a
+consultant, not a reporter — see §5.1.
 
 ### Comparison (verifying fixes worked)
 | Need | Tool |
@@ -212,6 +220,70 @@ Always present findings **sorted by `priority_score` descending**, grouped into
 
 When GSC is connected, `get_issues_with_traffic` and `get_google_opportunities`
 already bake most of this in — lead with them and you've done 80% of the ranking.
+
+---
+
+## 5.1 Reading GA4 like a consultant (not a reporter)
+
+`get_ga4_sections` gives audience, geography, channels, and landing behaviour.
+A reporter says "your top country is the US." A consultant asks **"is that
+traffic worth anything to THIS business?"** Traffic only counts if it can convert.
+Always judge the numbers against **business context** — ask for it if you don't
+have it: *what/where does this business serve, and who is the customer?*
+
+**First, establish the business's target market.** Infer it from signals you
+already have (the domain's ccTLD/`.in`, the site's address/phone, GSC's top
+country, service-area pages, currency) and **confirm it with the user** — don't
+assume. A dentist in Chennai, a national Indian SaaS, and a global dev tool have
+completely different "good geography."
+
+**Then apply the relevance lens to each GA4 section:**
+
+- **Geography (`countries`).** Match the traffic's location to the serving area.
+  A **Chennai** clinic whose sessions are 60% **US** does not have a traffic
+  win — it has a **relevance problem**: those visitors can't become patients, so
+  they inflate sessions while bounce is high and conversions are ~0. Say so
+  plainly: *"US is your #1 country by sessions but you serve Chennai — that
+  traffic won't convert. The real signal is your India/Tamil Nadu share; grow
+  that."* Cross-check with **bounce/engaged-time on those geos** (in landing
+  pages) — mismatched geo usually shows junk engagement. Flag likely causes:
+  wrong-intent keywords, scraper/bot referral, an off-target backlink, or content
+  that reads globally when the business is local. For a local business,
+  **recommend local SEO** (Google Business Profile, city+service pages, local
+  schema, NAP consistency) over chasing more national/global impressions.
+  *Exception:* if the business is deliberately global (SaaS, publisher,
+  e-commerce that ships worldwide), foreign traffic IS the market — don't
+  misread reach as noise. The lens is relevance, not "local always wins."
+
+- **Channels (`channels` + `channelTrend`).** Don't just list the mix — read
+  the **health** of it. Heavy **Direct** can mean brand strength *or* untagged
+  campaigns/bad attribution. Thin **Organic Search** on a site that's spent on
+  SEO is an underperformance flag. Rising **Organic** in `channelTrend` is the
+  single best proof SEO is working — lead with it in a progress report. Near-zero
+  Organic while Paid carries the site = fragile, one budget cut from silence.
+
+- **Landing pages (`landing`).** High **sessions + high bounce + low engaged
+  time** = attracting the wrong visitor or a poor match to intent (fix the page
+  or the query it ranks for, don't celebrate the sessions). Low sessions + strong
+  engagement = a page that deserves more visibility (internal links, refresh,
+  promote). This is where GA4 behaviour tells you which GSC rankings are
+  *actually* valuable.
+
+- **Engagement rate.** Prefer the **native GA4** rate when present (the tool flags
+  it); the 1−bounce estimate is a fallback. A high engagement rate on low-relevance
+  geo traffic is contradictory — trust the geo/relevance read over a flattering
+  average.
+
+**Explain shifts before alarming the user.** If clicks/sessions dipped in a
+window, call `get_google_search_incidents` for that window first: a dip that
+lines up with a Google **core/spam update** is likely Google-side (algorithm
+re-rank), not a site regression — say which it is instead of prescribing fixes
+for a problem the site doesn't have. (The Spider overlays these on its charts;
+your written analysis should reach the same conclusion.)
+
+**Bottom line:** never report a GA4 number without its "so what for this
+business." Sessions, top country, and channel mix are inputs — the deliverable
+is *whether that traffic can convert and what to do about it.*
 
 ---
 

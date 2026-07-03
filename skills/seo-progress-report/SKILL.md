@@ -43,9 +43,20 @@ hand a stakeholder.
      engagement rate; report bounce only if the stakeholder asks). These are UX
      signals, **not confirmed ranking factors** — don't credit a rank move to
      them, and pair engagement with conversion rate to stay interpretable.
+   - **Judge the traffic's quality, not just its size** (see FOUNDATIONS §5.1).
+     Rising sessions from the wrong **geography** isn't a win — a Chennai business
+     gaining US sessions has a relevance problem, not progress; report the
+     *serving-area* share and whether it grew. Read the **channel trend**: rising
+     **Organic** is your strongest proof SEO worked — lead with it; sessions
+     carried mostly by Paid is fragile, say so. Weigh **landing-page** behaviour
+     (high sessions + high bounce = wrong-intent traffic, not a gain).
    - `get_url_inspection { url }` — confirm a specific fixed page is now indexed /
      its canonical resolved.
-6. **Report:** what improved (tie each win to the fix that caused it), what
+6. **Explain dips before blaming the site:** if clicks/sessions fell in the
+   window, call `get_google_search_incidents` for that window. A dip aligned with
+   a Google **core/spam update** is Google-side — report it as such, don't
+   prescribe fixes for a regression the site didn't cause.
+7. **Report:** what improved (tie each win to the fix that caused it), what
    regressed (flag as new "Ship now"), what's still open. Be honest — don't
    credit a fix the data doesn't support.
 
@@ -70,6 +81,8 @@ Score <a> → <b> (<+/-n>) · Issues fixed: <n> · New issues: <n> · Grade <x>�
 
 ## Traffic trend (GSC/GA4)
 - Clicks <a>→<b> · avg pos <x>→<y> · sessions <a>→<b>
+- Quality: Organic <a>→<b> (channel trend <↑/→/↓>) · serving-area geo share <x%> · <relevance note if geo is off-target>
+- <if a dip: "Aligns with <Month> Google <core/spam> update — Google-side, not a site regression">
 
 ## Next: <re-run /seo-quick-wins on regressions | continue /seo-striking-distance>
 ```
