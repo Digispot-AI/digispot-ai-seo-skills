@@ -103,6 +103,23 @@ crawls; page = drill one URL on one device.
    `category:"metadata"` both surface `indexabilityScore` — there is no separate
    `technicalScore`. The canonical per-page number is `pageAuditScore`; the
    per-device average is `avgPageAuditScore`.
+5. **Audited pages vs redirect observations (critical on consolidation-heavy
+   sites).** A crawl's Page rows contain two kinds: real content AUDITS, and
+   thin **redirect observations** (`isRedirect: true` + `constantPageRepeat:
+   true`, status 3xx, `finalUrl` set). An observation is a chain record — the
+   site 301-redirects that URL into a destination that was audited ONCE. Its
+   score columns sit at 0 **as schema defaults, not verdicts**: never treat an
+   observation as a low-scoring or thin page, never recommend content fixes on
+   it, and never count it as a crawled PAGE. `Crawl.crawledPages` = audits
+   only; `totalPages` = audits + failed + observations (processed URLs).
+   `get_crawl_summary` reports "Pages Audited: N (of M processed)" when
+   observations exist; `list_pages` labels observation rows
+   `REDIRECT (not audited) → destination`; `get_page_report` on an observation
+   returns the chain story with a pointer to the destination's audited row.
+   When many URLs collapse into few destinations (e.g. a retired blog section
+   301-consolidated into hub pages), the REAL findings are: stale sitemap
+   (lists retired URLs), redirect chains, and possibly a project-URL host hop
+   — not "N poor pages". `get_redirects` lists the per-URL chains.
 
 ---
 
