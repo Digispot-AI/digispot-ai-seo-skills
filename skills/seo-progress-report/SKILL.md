@@ -52,6 +52,14 @@ hand a stakeholder.
      (high sessions + high bounce = wrong-intent traffic, not a gain).
    - `get_url_inspection { url }` — confirm a specific fixed page is now indexed /
      its canonical resolved.
+   - **Optional one-shot stakeholder report** (workflow — FOUNDATIONS §4): the
+     **`Traffic & Engagement Report (GSC + GA4)`** recipe builds a combined
+     traffic + engagement report in one run — handy as the artifact you hand a
+     stakeholder. Offer it (AI summary uses credits); the read tools above already
+     give you the numbers, so this is a convenience, not a dependency.
+   - **Off-page trend** (workflow): run **`Project Backlink Profile`** to report
+     whether referring domains / authority moved — progress isn't only on-page.
+     Cloud credits; offer and run on go-ahead.
 6. **Explain dips before blaming the site:** if clicks/sessions fell in the
    window, call `get_google_search_incidents` for that window. A dip aligned with
    a Google **core/spam update** is Google-side — report it as such, don't

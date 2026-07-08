@@ -132,9 +132,9 @@ exceeds "what we have," flagged so they can be sequenced as engine work.
 
 ## 6. Verification (when built)
 
-Each touched skill must be dry-run against the live MCP on THANC Hospital:
+Each touched skill must be dry-run against a live MCP-bound project (any test project):
 - `/seo-quick-wins` → offers a `Title & Meta Refresh` and the generated meta actually returns.
-- `/seo-competitor <thanc page> <rival page>` → `Competitor Page Comparison` completes, verdict shown.
+- `/seo-competitor <your page> <competitor page>` → `Competitor Page Comparison` completes, verdict shown.
 - `/seo-progress-report` → `Traffic & Engagement Report` runs and the combined report renders.
 - Confirm every skill discovers recipes by name (kill the run if any hardcoded id appears).
 

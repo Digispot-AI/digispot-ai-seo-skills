@@ -42,7 +42,10 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
    thin content vs the query, missing intent coverage, weak title match, missing
    schema, slow LCP, few internal links.
 5. **For each page, prescribe the rank-gain move(s):**
-   - **Title/meta** rewritten to match the striking-distance query intent.
+   - **Title/meta** rewritten to match the striking-distance query intent. To
+     *generate* it rather than hand-write, offer the **`Title & Meta Refresh`**
+     workflow (`input: { url }`, FOUNDATIONS §4) — it returns an AI, keyword-informed
+     title + meta. Action (AI credits): run on the user's go-ahead.
    - **Content** — the H2s / entities to add to fully answer the query (pull the
      query from step 2; outline what's missing).
    - **Internal links** — anchor-rich links *to* this page (cross-check with
@@ -51,6 +54,10 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
      types Google still renders (Product/Review/Article/Recipe/Video/Org/
      LocalBusiness/Event/Breadcrumb); FAQ/HowTo are AEO/extraction wins, not
      rich-result wins (FOUNDATIONS §6).
+   - **Beat the page ranking above you** — when the user asks *why* a competitor
+     outranks them for the target query, hand off to **`/seo-competitor`** (it runs
+     the `Competitor Page Comparison` workflow: your URL vs theirs → a point-by-point
+     gap + plan).
 6. **Rank** by combined opportunity score; group **Ship now / Plan**.
 
 ## Output template

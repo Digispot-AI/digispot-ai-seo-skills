@@ -39,6 +39,16 @@ Reach for a sibling instead when: the user wants the *complete* picture →
 4. **Rank** the survivors by `priority_score` (FOUNDATIONS §5).
 5. **Write the exact fix** for each (FOUNDATIONS §6). Quick wins are only quick
    if the user can paste them — no "consider revising".
+6. **Optional — GENERATE the fix, don't just recommend it** (FOUNDATIONS §4
+   Workflows). For the top title/meta or heading wins, offer to produce the exact
+   new copy with AI instead of hand-writing it:
+   - Title or meta on a page → **`Title & Meta Refresh`** (`input: { url }`) —
+     returns an AI-written, keyword-informed title + meta.
+   - Broken/duplicate heading hierarchy → **`Heading Structure Cleanup`**
+     (`input: { url }`) — returns a clean H1–H6 outline.
+   These are **actions** (AI + cloud credits): name that, run only on the user's
+   go-ahead, then poll `get_workflow_run` and paste the result into the fix line.
+   If workflows aren't licensed / no AI model, skip this and hand-write the fix.
 
 ## Output template
 

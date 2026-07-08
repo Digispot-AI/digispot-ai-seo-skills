@@ -216,6 +216,56 @@ If a Google-dependent tool returns "no GSC data", say so plainly and fall back
 to crawl-only severity (you lose the traffic weight but can still rank by
 severity × ease). Tell the user connecting GSC unlocks traffic-weighted ranking.
 
+### Workflows (actions that PRODUCE, not just read)
+
+Beyond the read tools above, the MCP exposes **workflows** — curated multi-step
+recipes that *do* things a single read can't: rewrite a title with AI, draft a
+blog post, compare your page against a competitor's, pull a backlink profile,
+build a combined GSC+GA4 report. Three tools drive them:
+
+| Need | Tool |
+|---|---|
+| See the recipes available for this project (+ their inputs) | `list_workflows` |
+| Start a recipe | `run_workflow { workflowId, input }` → returns a `runId` |
+| Get a run's status + result | `get_workflow_run { runId }` |
+
+**The pattern (always these four steps):**
+
+1. `list_workflows` → find the recipe by its **name** (e.g. "Competitor Page
+   Comparison"), read its `id` and its declared inputs.
+2. `run_workflow { workflowId: <that id>, input: { …the recipe's inputs } }`
+   → returns `{ runId }`. **`projectId` is injected automatically — never pass it.**
+3. Poll `get_workflow_run { runId }` until it's `completed` (like
+   `start_crawl` → `wait_for_crawl`). Tell the user "running <recipe>…" while you wait.
+4. Read the result (the terminal step's deliverable) and fold it into your output.
+
+**HARD RULE — never hardcode a recipe id.** Recipe ids are per-project and change
+between installs; resolve the id from `list_workflows` by matching the recipe
+**name**, every run. (Same discipline as never hardcoding a crawlId/projectId.)
+
+**Recipe → job (match by name):**
+
+| Recipe | Inputs you supply | Produces |
+|---|---|---|
+| AI SEO Page Review | `url` | AI section-by-section review (content/AEO/schema/CWV/indexability) |
+| Title & Meta Refresh | `url` | AI-written title + meta, keyword-informed |
+| Heading Structure Cleanup | `url` | A clean H1–H6 outline |
+| Competitor Page Comparison | `urlA`, `urlB`, `fetchBacklinks?` | Point-by-point verdict + beat-them plan + backlink gap |
+| AI Blog Draft (MDX) | `title`, `keyword`, `intent?`, `location?` | A 1500–2000-word on-brand MDX draft |
+| Project Backlink Profile | *(none)* | Referring domains, dofollow, authority |
+| Striking-Distance Keywords → CSV | *(none)* | Position-≤20 queries, prioritized CSV |
+| High-Traffic Pages at Risk → CSV | *(none)* | Traffic-weighted fix list, CSV |
+| Quick Wins to Spreadsheet | `crawlId` | Prioritized quick-wins CSV |
+| Traffic & Engagement Report (GSC+GA4) | *(none)* | Combined traffic + engagement report |
+
+**Diagnose-vs-produce — the consent rule.** Reads are free to run. A workflow that
+*generates or spends* (any AI draft/rewrite, or a recipe that uses cloud credits
+like backlinks/keyword data) is an **action**: name what it will do and that it
+consumes AI/cloud credits, then run it only on the user's go-ahead. This extends
+the "diagnose + propose, never silently edit" principle to "never silently spend."
+Workflows need a paid plan and an AI model connected (for the AI recipes); if a run
+comes back not-licensed or no-model, say so and fall back to the read-only path.
+
 ---
 
 ## 5. Prioritization formula

@@ -43,6 +43,14 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    duplicates a page already ranking.
 6. **Rank** the roadmap by `impact × intent-value × ease-to-produce` and group
    **Write now / Next / Later**. For "Write now" items, produce a full brief.
+7. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
+   FOUNDATIONS §4). Offer to turn the top brief into an actual draft with the
+   **`AI Blog Draft (MDX)`** recipe: `input: { title, keyword, intent, location? }`
+   (pull `keyword`/`intent` from the brief; `location` only for a local business).
+   It returns a 1500–2000-word on-brand MDX file. This is an **action** (AI +
+   cloud credits) — name that, run only on the user's go-ahead, poll
+   `get_workflow_run`, and hand back the draft. Skip gracefully if unlicensed / no
+   AI model, and deliver the brief alone.
 
 ## Output template
 

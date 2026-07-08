@@ -56,6 +56,12 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema" }`
      / `{ category: "aeo" }` to learn the rubric, then `get_issue_pages` for the
      ones flagged on this crawl.
+   - **Off-page / backlinks** (workflow — FOUNDATIONS §4): a full audit covers
+     off-page authority, not just on-page. Run the **`Project Backlink Profile`**
+     recipe (no inputs beyond the injected project) via `list_workflows` →
+     `run_workflow` → poll. Report referring domains, dofollow ratio, and
+     authority as the off-page dimension. Uses cloud credits — name that and run
+     on the user's go-ahead; skip gracefully if unlicensed.
 5. **Target, then drill the top at-risk pages in parallel.** First
    `get_crawl_status_summary` to see the biggest broken bucket, then
    `list_pages` (filtered + sorted, e.g. `{ minIssueCount:1,
@@ -63,6 +69,11 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    at-risk pages from step 3. Then **dispatch parallel subagents**, each running
    `get_page_issues { crawlId, pageId }` (and `get_page_report` if needed) for
    one page, returning a compact finding list. Synthesize in the main thread.
+   - **Optional deep review of the single worst page** (workflow — FOUNDATIONS
+     §4): for the top at-risk URL, run the **`AI SEO Page Review`** recipe
+     (`input: { url }`) — an AI section-by-section read (content/AEO/schema/CWV/
+     indexability) that goes beyond raw `get_page_issues`. Action (AI credits):
+     offer it, run on go-ahead.
 6. **Rank + group** every finding by `priority_score` (FOUNDATIONS §5) into
    **Ship now / Plan / Backlog**.
 7. **Write paste-ready fixes** (FOUNDATIONS §6) for at least every "Ship now"
