@@ -45,12 +45,18 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    **Write now / Next / Later**. For "Write now" items, produce a full brief.
 7. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
    FOUNDATIONS §4). Offer to turn the top brief into an actual draft with the
-   **`AI Blog Draft (MDX)`** recipe: `input: { title, keyword, intent, location? }`
-   (pull `keyword`/`intent` from the brief; `location` only for a local business).
-   It returns a 1500–2000-word on-brand MDX file. This is an **action** (AI +
-   cloud credits) — name that, run only on the user's go-ahead, poll
-   `get_workflow_run`, and hand back the draft. Skip gracefully if unlicensed / no
-   AI model, and deliver the brief alone.
+   **`AI Page Draft (MDX)`** recipe (formerly "AI Blog Draft (MDX)" — match either
+   name in `list_workflows` on older installs):
+   `input: { title, keyword, pageType?, intent?, location?, outlineHints? }`
+   — pull `keyword`/`intent` from the brief; set `pageType: "service"` for
+   commercial/transactional gaps (service page, 900–1300 words, business-identity
+   trust signals + booking CTA) and leave it default `"blog"` for informational
+   ones (1500–2000-word article); pass the brief's must-cover points as
+   `outlineHints` (one per line) so the researched outline honors them;
+   `location` only for a local business. It returns an on-brand MDX file. This is
+   an **action** (AI + cloud credits) — name that, run only on the user's
+   go-ahead, poll `get_workflow_run`, and hand back the draft. Skip gracefully if
+   unlicensed / no AI model, and deliver the brief alone.
 
 ## Output template
 

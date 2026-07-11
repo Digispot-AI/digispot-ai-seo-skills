@@ -235,6 +235,8 @@ build a combined GSC+GA4 report. Three tools drive them:
    Comparison"), read its `id` and its declared inputs.
 2. `run_workflow { workflowId: <that id>, input: { …the recipe's inputs } }`
    → returns `{ runId }`. **`projectId` is injected automatically — never pass it.**
+   Inputs with a declared default (e.g. the page-draft recipe's `pageType`) may be
+   omitted — the server fills them; pass a value only to override.
 3. Poll `get_workflow_run { runId }` until it's `completed` (like
    `start_crawl` → `wait_for_crawl`). Tell the user "running <recipe>…" while you wait.
 4. Read the result (the terminal step's deliverable) and fold it into your output.
@@ -251,7 +253,7 @@ between installs; resolve the id from `list_workflows` by matching the recipe
 | Title & Meta Refresh | `url` | AI-written title + meta, keyword-informed |
 | Heading Structure Cleanup | `url` | A clean H1–H6 outline |
 | Competitor Page Comparison | `urlA`, `urlB`, `fetchBacklinks?` | Point-by-point verdict + beat-them plan + backlink gap |
-| AI Blog Draft (MDX) | `title`, `keyword`, `intent?`, `location?` | A 1500–2000-word on-brand MDX draft |
+| AI Page Draft (MDX) *(formerly "AI Blog Draft (MDX)" — match either name on older installs)* | `title`, `keyword`, `pageType?` (`blog`\|`service`, default `blog`), `intent?`, `location?`, `outlineHints?` (must-cover points, one per line) | An on-brand MDX draft — `blog` = 1500–2000-word article; `service` = 900–1300-word commercial service page grounded in the project's business identity with a booking/contact CTA |
 | Project Backlink Profile | *(none)* | Referring domains, dofollow, authority |
 | Striking-Distance Keywords → CSV | *(none)* | Position-≤20 queries, prioritized CSV |
 | High-Traffic Pages at Risk → CSV | *(none)* | Traffic-weighted fix list, CSV |
