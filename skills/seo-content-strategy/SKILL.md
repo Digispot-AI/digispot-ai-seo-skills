@@ -45,8 +45,9 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    **Write now / Next / Later**. For "Write now" items, produce a full brief.
 7. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
    FOUNDATIONS §4). Offer to turn the top brief into an actual draft with the
-   **`AI Page Draft (MDX)`** recipe (formerly "AI Blog Draft (MDX)" — match either
-   name in `list_workflows` on older installs):
+   **`AI - Page Writer (MDX)`** recipe (renamed in Spider 1.0.4; older installs may
+   still list it as "AI Page Draft (MDX)" or "AI Blog Draft (MDX)" — match whichever
+   name `list_workflows` actually returns):
    `input: { title, keyword, pageType?, intent?, location?, outlineHints? }`
    — pull `keyword`/`intent` from the brief; set `pageType: "service"` for
    commercial/transactional gaps (service page, 900–1300 words, business-identity

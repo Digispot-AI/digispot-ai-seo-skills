@@ -253,7 +253,7 @@ between installs; resolve the id from `list_workflows` by matching the recipe
 | Title & Meta Refresh | `url` | AI-written title + meta, keyword-informed |
 | Heading Structure Cleanup | `url` | A clean H1–H6 outline |
 | Competitor Page Comparison | `urlA`, `urlB`, `fetchBacklinks?` | Point-by-point verdict + beat-them plan + backlink gap |
-| AI Page Draft (MDX) *(formerly "AI Blog Draft (MDX)" — match either name on older installs)* | `title`, `keyword`, `pageType?` (`blog`\|`service`, default `blog`), `intent?`, `location?`, `outlineHints?` (must-cover points, one per line) | An on-brand MDX draft — `blog` = 1500–2000-word article; `service` = 900–1300-word commercial service page grounded in the project's business identity with a booking/contact CTA |
+| AI - Page Writer (MDX) *(renamed in Spider 1.0.4; older installs may still show "AI Page Draft (MDX)" or "AI Blog Draft (MDX)" — match whichever `list_workflows` returns)* | `title`, `keyword`, `pageType?` (`blog`\|`service`, default `blog`), `intent?`, `location?`, `outlineHints?` (must-cover points, one per line) | An on-brand MDX draft — `blog` = 1500–2000-word article; `service` = 900–1300-word commercial service page grounded in the project's business identity with a booking/contact CTA |
 | Project Backlink Profile | *(none)* | Referring domains, dofollow, authority |
 | Striking-Distance Keywords → CSV | *(none)* | Position-≤20 queries, prioritized CSV |
 | High-Traffic Pages at Risk → CSV | *(none)* | Traffic-weighted fix list, CSV |
