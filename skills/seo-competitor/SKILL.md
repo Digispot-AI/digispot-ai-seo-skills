@@ -24,7 +24,7 @@ rule — the comparison drives crawl + AI and (with backlinks) cloud credits.
 Reach for a sibling instead when: the goal is pushing your own pos-8–20 pages and
 links are only part of it → `/seo-striking-distance`; you want a full site health
 check → `/seo-audit`; you need the backlink profile of *your* site alone →
-`/seo-audit` (off-page dimension).
+`get_backlinks` (free, cached, no workflow and no credits).
 
 ## Procedure
 

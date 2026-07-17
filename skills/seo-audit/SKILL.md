@@ -56,12 +56,17 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema" }`
      / `{ category: "aeo" }` to learn the rubric, then `get_issue_pages` for the
      ones flagged on this crawl.
-   - **Off-page / backlinks** (workflow — FOUNDATIONS §4): a full audit covers
-     off-page authority, not just on-page. Run the **`Project Backlink Profile`**
-     recipe (no inputs beyond the injected project) via `list_workflows` →
-     `run_workflow` → poll. Report referring domains, dofollow ratio, and
-     authority as the off-page dimension. Uses cloud credits — name that and run
-     on the user's go-ahead; skip gracefully if unlicensed.
+   - **Off-page / backlinks**: a full audit covers off-page authority, not just
+     on-page. Call **`get_backlinks { section: "all" }`** — free, cached, no
+     workflow, no credits, and the domain comes from the project. Report referring
+     domains, follow-vs-nofollow, spam, and domain rank as the off-page dimension.
+     Three traps the tool guards but your PROSE must respect: `rank N/A` is
+     unranked/unknown (never call it low authority), an `ALL-NOFOLLOW` domain passes
+     zero equity no matter how many links it has, and a non-`ok` status means the
+     profile could not be read — say that instead of reporting zero.
+     If the profile is empty or stale, the fresh pull is a human action: tell the
+     user to hit **Sync from cloud** on the project's Backlinks page (it spends a
+     credit). Skip gracefully if unlicensed — backlinks need Tracker or above.
 5. **Target, then drill the top at-risk pages in parallel.** First
    `get_crawl_status_summary` to see the biggest broken bucket, then
    `list_pages` (filtered + sorted, e.g. `{ minIssueCount:1,

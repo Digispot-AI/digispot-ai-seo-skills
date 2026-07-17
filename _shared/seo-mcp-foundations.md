@@ -185,7 +185,24 @@ any audit that claims AEO coverage.
 |---|---|
 | New pages to write, topic clusters, cannibalization | `get_content_opportunities` (`section: gaps\|clusters\|cannibalization`) |
 | Internal links to add, hubs, anchor profiles | `get_link_insights` (`section: suggestions\|hubs\|anchors`, `reason: orphan\|low-inbound\|deep`) |
+| **Backlinks / off-page authority** (referring domains, follow vs nofollow, spam, domain rank) | `get_backlinks` (`section: summary\|domains\|all`, `limit`) |
 | Broader content opportunity list | `get_content_opportunities`, `get_quick_wins` |
+
+**Backlinks — read this before you interpret the numbers.** `get_backlinks` is a free,
+project-scoped read of the stored profile (the domain is taken from the project — you never
+pass a URL). Prefer it over the `Project Backlink Profile` workflow, which is slower and can
+spend cloud credits. It cannot refresh: pulling fresh data from the cloud is a deliberate
+human click in the app, never an agent action.
+
+Three rules the data will punish you for ignoring:
+- **`rank N/A` means UNRANKED/unknown, not "rank zero".** The provider sends 0 for "no rank
+  known" — the tool renders it `N/A` precisely so you don't read it as worst-possible
+  authority. Never rank, sort, or advise on `N/A` as if it were a low score.
+- **All-nofollow domains pass ZERO equity.** The tool flags them. A domain with 25 links that
+  is `ALL-NOFOLLOW` contributes nothing to rankings — treat it as zero authority for advice,
+  and never present its link count as a win.
+- **`—` means not measured, not zero.** And if `status` is not `ok`, the profile could not be
+  fetched — say so; never report "0 backlinks" for a failed read.
 
 ### Google (GSC / GA4 — need the integration connected)
 | Need | Tool |
