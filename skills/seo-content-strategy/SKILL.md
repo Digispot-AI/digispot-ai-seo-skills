@@ -37,13 +37,25 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    indexabilityStatus:"indexable" }` — these are existing pages that need depth
    before they can carry a cluster; rank by `sortBy:"inboundLinkCount"` so you
    reinforce the ones already getting link equity rather than rewriting orphans.
-5. **Weight by demand (if GSC connected):** cross-reference gap keywords with
+5. **Keyword demand — the market's vote (if keywords are imported):**
+   `get_keywords { section: "opportunities" }`. The `expand` lane is gold here:
+   keywords inside a topic the site already owns with NO covering page — each is
+   a ready-made gap with volume/intent/KD evidence. The `new` lane proposes
+   topics the site doesn't cover at all. Cross-check step 2's gaps against these
+   lanes — a gap backed by real search volume outranks one without. Before
+   briefing into a topic, drill in with `get_keywords { topic: "<clusterKey>" }`
+   (keys from `section: "topics"`) to see its pages, `create`-state keywords,
+   and whether it lacks a pillar page. Rows are page-target units (variants
+   folded) — one brief per row, never one per variant. If no keywords are
+   loaded or the plan lacks the module, relay the tool's note and continue with
+   steps 2–4 alone.
+6. **Weight by demand (if GSC connected):** cross-reference gap keywords with
    `get_gsc_import_top_queries` to prioritize topics with proven impressions,
    and check `get_google_opportunities` so you don't propose content that
    duplicates a page already ranking.
-6. **Rank** the roadmap by `impact × intent-value × ease-to-produce` and group
+7. **Rank** the roadmap by `impact × intent-value × ease-to-produce` and group
    **Write now / Next / Later**. For "Write now" items, produce a full brief.
-7. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
+8. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
    FOUNDATIONS §4). Offer to turn the top brief into an actual draft with the
    **`AI - Page Writer (MDX)`** recipe (renamed in Spider 1.0.4; older installs may
    still list it as "AI Page Draft (MDX)" or "AI Blog Draft (MDX)" — match whichever

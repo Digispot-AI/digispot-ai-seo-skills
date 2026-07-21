@@ -184,6 +184,8 @@ any audit that claims AEO coverage.
 | Need | Tool |
 |---|---|
 | New pages to write, topic clusters, cannibalization | `get_content_opportunities` (`section: gaps\|clusters\|cannibalization`) |
+| **Keyword universe** — opportunity lanes, topic map, raw table | `get_keywords` (`section: opportunities\|topics\|keywords`, `q`, `intent`) |
+| One topic's pages + keywords by state (covered/improve/create) | `get_keywords` (`topic: "<clusterKey>"` — keys shown in `section: topics`) |
 | Internal links to add, hubs, anchor profiles | `get_link_insights` (`section: suggestions\|hubs\|anchors`, `reason: orphan\|low-inbound\|deep`) |
 | **Backlinks / off-page authority** (referring domains, follow vs nofollow, spam, domain rank) | `get_backlinks` (`section: summary\|domains\|all`, `limit`) |
 | Broader content opportunity list | `get_content_opportunities`, `get_quick_wins` |
@@ -203,6 +205,24 @@ Three rules the data will punish you for ignoring:
   and never present its link count as a win.
 - **`—` means not measured, not zero.** And if `status` is not `ok`, the profile could not be
   fetched — say so; never report "0 backlinks" for a failed read.
+
+**Keywords — imported market data mapped onto the site's topics.** `get_keywords` serves the
+project's keyword universe (Google Keyword Planner CSV imports + Digispot cloud enrichment)
+mapped onto the SAME topic clusters `get_content_opportunities` reports — use it to back
+content decisions with demand evidence. Rules:
+- **Import-first:** "No keywords are loaded" is a normal state, not an error — point the user
+  to the app's Keywords page (import/enrich are deliberate human actions, never agent calls).
+- **Tier-gated module:** a plan-gate reply is the answer for this session — relay it once,
+  don't retry or work around it.
+- **Banded volumes ("50K+") are floors**, from non-spending Planner accounts — never sum,
+  average, or rank precisely on them.
+- **Lanes** (`section: opportunities`): `improve` = pos 8–20 striking distance · `expand` =
+  owned topic, no covering page · `new` = no matching topic on the site · `optimize` =
+  covered but not ranking · `defend` = ranking ≤7. Rows are **page-target units** — variant
+  keywords are folded into one row so you never brief two pages for the same target.
+- **Drill-down** (`topic: "<clusterKey>"`): one topic's pages and its keywords grouped by
+  covered / improve / create — the per-topic evidence for briefs and pillar decisions
+  (`⚠ no pillar page` there is a structural gap worth fixing before writing spokes).
 
 ### Google (GSC / GA4 — need the integration connected)
 | Need | Tool |

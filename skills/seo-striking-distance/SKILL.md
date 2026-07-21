@@ -28,6 +28,12 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
      position 8–20 queries: high impressions, low clicks, close to page 1.
    - `get_high_traffic_at_risk { crawlId, minClicks: 10 }` — pages with real
      traffic that *also* carry issues (fixing these protects + grows).
+   - **If keywords are imported:** `get_keywords { section: "opportunities" }` —
+     the `improve` lane is this skill's exact target (imported keywords at GSC
+     pos 8–20, with volume/KD/intent and the mapped page attached), and the
+     `defend` lane (pos ≤7) flags pages to protect while you edit them. Volumes
+     like "50K+" are banded floors — never sum them. Skip gracefully if the
+     tool reports no keywords or a plan gate.
 3. **Correlate rank × on-page problem:**
    - `get_google_opportunities { crawlId, limit: 20 }` — the unified score
      (traffic × severity × rank proximity). This is the master list; lead here.
