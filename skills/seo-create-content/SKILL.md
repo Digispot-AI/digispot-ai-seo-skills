@@ -63,10 +63,20 @@ Reach for a sibling instead when: still deciding WHAT to write →
    spending workflow credits.
 5. **Find the recipes.** `list_workflows` — the page recipe is
    "AI - Page Writer (MDX)"; standalone images use "AI - Image Studio".
-6. **Reference images (optional but better).**
-   `list_image_references` — a person/product/logo reference makes the cover
-   authentic (the doctor's real photo, the actual product). Pass its id as
+6. **Reference images — match them to the topic via the Knowledge base.**
+   `list_image_references` returns labeled references ("Dr. Priya — headshot",
+   purpose person/product/logo/style). Don't pick "a person" — pick the RIGHT
+   one: cross-reference the knowledge context from step 3 to find who or what
+   this page is actually about (the doctor who leads the department being
+   written about, the exact product/SKU, the branch being featured), then
+   select the reference whose label matches. Pass its id as
    `referenceImage: "library:<id>"`.
+   **Identity rule — never substitute:** if the knowledge names Dr. A but only
+   Dr. B has a reference image, do NOT use Dr. B's face on Dr. A's topic —
+   wrong-person attribution is worse than no person. Fall back to a non-person
+   cover (product/style/brand-graphic) and tell the owner which reference
+   photo to upload in Image Studio to unlock the authentic version. Same for
+   products: the pictured item must be the item the page discusses.
 7. **Run the draft.** `run_workflow` with the Page Writer recipe: keyword/title
    from step 3, outline points from the gap's brief, and the cover enabled.
    Then `get_workflow_run` until it completes — report where the MDX + image
@@ -91,3 +101,7 @@ Reach for a sibling instead when: still deciding WHAT to write →
 - Facts come from the Knowledge base; the draft must not invent names, prices,
   credentials, or locations. YMYL topics (health, legal, finance) get a
   conservative, expert-review-required note.
+- Identity integrity: a reference image of a person or product may only be
+  used on pages ABOUT that person or product (knowledge-matched, step 6).
+  When unsure who's pictured or who the page is about, generate without the
+  reference and say why.
