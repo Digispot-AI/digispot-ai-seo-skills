@@ -2,10 +2,14 @@
 
 The shared operating procedure for every `digispot-seo` skill. Read this first.
 It encodes how an experienced SEO consultant runs an engagement against the
-Digispot AI Spider, so the skill that loaded it can act like one.
+Digispot AI Spider — and, when connected, the Digispot Platform (cloud) — so the
+skill that loaded it can act like one. Which servers are present and how to
+route between them: §0.5. Platform credit rules: §0.6.
 
-The `digispot-seo` MCP is **locked to one project per repo** (bound via
-`--project` in `.mcp.json`). Every tool acts only on that project.
+The `digispot-seo` (Spider) MCP is **locked to one project per repo** (bound via
+`--project` in `.mcp.json`). Every Spider tool acts only on that project.
+Sections §1–§8 are written against the Spider; in platform-only mode, follow
+§0.5 and each skill's "Platform-only" notes instead.
 
 ---
 
@@ -23,6 +27,119 @@ The `digispot-seo` MCP is **locked to one project per repo** (bound via
    Reuse the latest completed crawl unless it's stale.
 5. **Portable.** Never hardcode a project ID or crawlId. Resolve both at
    runtime, every run.
+
+---
+
+## 0.5 Two servers, three modes
+
+These skills run against up to two MCP servers. The names never collide, and
+they complement rather than duplicate each other:
+
+| | **Spider** (`digispot-seo`, local app) | **Platform** (cloud — every tool starts with `digispot_`) |
+|---|---|---|
+| Data | Local crawl DB + **live** Google OAuth | Cloud audit runs, live keyword/backlink market data, **cached** GSC/GA |
+| Cost | Free reads; crawls use local quota | Free reads + **credit-metered** tools (real money — see §0.6) |
+| Project | Bound per repo, injected — never pass it | Explicit UUID — resolve via `digispot_projects` |
+
+**Detect the mode once per session** (probe by tool availability — `get_mcp_scope`
+= Spider present, `digispot_projects` = Platform present), then operate in it:
+
+- **Dual** — Spider leads; Platform upgrades slot in where this doc or the skill
+  says so. Cloud numbers are always labeled separately (see the twins rule).
+- **Spider-only** — exactly the classic behavior of this doc; silently skip
+  anything Platform-flagged.
+- **Platform-only** — cloud paths only. Resolve the project from
+  `digispot_projects` by matching the repo's site domain (compare hosts; ignore
+  protocol / `www.` / trailing slash) and confirm the match in one line. Skills
+  that need the local crawl degrade honestly: `/seo-internal-linking` requires
+  the Spider — say so and stop; others follow their "Platform-only" notes.
+  Page-level artifacts (screenshots, site graph, device comparison, `list_pages`
+  filters) don't exist in the cloud — say so rather than improvising.
+
+**Routing rules (which server answers which question):**
+
+| Question lives in… | Server | Tools |
+|---|---|---|
+| Local crawl detail (pages, issues, links, devices, site graph) | Spider only | the §4 map |
+| Cloud audit history & diffs | Platform | `digispot_audit_runs`, `digispot_audit_overview`, `digispot_compare_audits`, `digispot_audit_deltas` |
+| **Live keyword demand** (volume / CPC / difficulty / related) | Platform | `digispot_keyword_lookup`, `digispot_related_keywords` — the only live-market source; Spider's `get_keywords` is the *imported* universe |
+| Backlink competitors / anchors | Platform | `digispot_backlinks_competitors`, `digispot_backlinks_anchors` (metered — §0.6) |
+| Backlink history trend | Platform | `digispot_backlinks_trend` (free) — prefer over the credit-spending workflow |
+| Field/lab performance of **any URL** — including a competitor's | Platform | `digispot_lookup_crux`, `digispot_lookup_pagespeed` (free); domain age: `digispot_lookup_site_age` |
+| GSC / GA4 | **Spider first** (live OAuth, richer). Spider not connected → Platform's cached `digispot_gsc_analytics` / `digispot_ga_analytics` / `digispot_google_summary`, labeled "as of last daily sync" | |
+| AI content draft | Spider's Page Writer workflow first; unlicensed / no model → Platform `digispot_content_generate` (§0.6) | |
+| Cloud audit provisioning | Platform | `digispot_list/get/create/update_audit_config`, `digispot_run_audit`, `digispot_cancel_audit` |
+
+Newer Platform tools may also exist (`digispot_score_trend`,
+`digispot_audit_pages`, `digispot_sitemap_coverage`, `digispot_page_screenshot`,
+a `dimension:"page"` option on `digispot_gsc_analytics`) — probe and use them
+when present; never assume them.
+
+**HARD RULE — the twins are not the same data.** `compare_audits` (Spider) and
+`digispot_compare_audits` (Platform) diff **different stores**: local crawls vs
+cloud audit runs. A Spider `crawlId` means nothing to a Platform tool and vice
+versa. Never mix IDs across servers, never merge the two into one timeline, and
+label every reported number with its source (`crawl <date>` vs
+`cloud audit <date>`).
+
+**Session card — resolve once, reuse everywhere.** After scope resolution (and
+crawl/run resolution), emit one line the rest of the session reuses:
+
+```
+[session] project: <name/domain> · mode: dual|spider-only|platform-only ·
+          crawl: <date> (<id>) · platform project: <uuid or "—"> ·
+          credits: <the metrics this session may spend, from digispot_usage_limits>
+```
+
+If a `[session]` card already exists in this conversation, **reuse it** — do not
+re-probe servers or re-resolve scope/crawl. Re-resolve only if it's stale (new
+crawl requested, project changed) and then emit an updated card.
+
+If this repo has no `AGENTS.md` routing block for these skills, offer once to
+create it (a single file write) so future sessions get routing and mode
+detection before any skill is invoked; continue either way.
+
+---
+
+## 0.6 Platform credits — the spend rules
+
+The Platform meters real money. **Exactly seven tools charge; everything else
+is free.** Never ask consent for free tools — consent fatigue kills the consent
+that matters.
+
+| Tool | Cost | Fine print |
+|---|---|---|
+| `digispot_keyword_lookup` | 1 KEYWORD_SEARCH_VOLUME | Charged **even on cache hit** — repeats are never free |
+| `digispot_related_keywords` | 1 KEYWORD_RELATED | Same — always charges |
+| `digispot_create_project` | 1 PROJECT_CREATION | Only when the user explicitly wants the site on the Platform |
+| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | The only variable-cost tool — read the config's `crawlBudget` first |
+| `digispot_backlinks_anchors` | 1 BACKLINK_ANALYSIS | Only on a **fresh provider fetch that returns data**; 7-day cache hits and empty results are free |
+| `digispot_backlinks_competitors` | 1 BACKLINK_ANALYSIS | Same cache-aware rule |
+| `digispot_content_generate` | 1 AI_ACTION + 1 AI_CONTENT | Two meters, staged; a failed plan auto-restores the AI_ACTION — don't panic-retry |
+
+Everything else — all audit/config/issue/insight reads, `digispot_backlinks_trend`,
+`digispot_backlinks_overview`/`_referring_domains`, CrUX/PageSpeed/WHOIS lookups,
+cached GSC/GA, `digispot_content_generate_status` polling, config CRUD — is
+**free**.
+
+**The spend protocol (extends "never silently spend"):**
+
+1. `digispot_usage_limits` (free) → check the metric's `remaining` BEFORE
+   proposing a spend. Zero remaining → relay the limit and the upgrade path,
+   don't retry, don't work around.
+2. **Batched consent.** One ask per batch, with real numbers — *"validating 12
+   keywords = 12 KEYWORD_SEARCH_VOLUME credits (you have 812 left) — go?"* —
+   never 12 separate asks.
+3. **`digispot_run_audit` gets its own quote.** Read the config first
+   (`digispot_get_audit_config`) and quote actual numbers: *"this run = 1 site +
+   up to <crawlBudget> page credits; you have <n> site audits and <m> page
+   credits left — go?"* A generic "this costs credits" under-informs by up to 50×.
+4. **`digispot_cancel_audit` is the refund valve** — free, and restores unused
+   SITE_AUDIT/PAGE_AUDIT credits while a run is QUEUED/PICKED/RUNNING. Mention
+   it when starting a run; use it if the user changes their mind.
+5. **Plan gates are answers, not obstacles.** "Active subscription required" or
+   a FREE-plan lifetime AI-content cap is the session's answer — relay it once
+   and fall back to the free path (same discipline as the Spider tier-gate rule).
 
 ---
 

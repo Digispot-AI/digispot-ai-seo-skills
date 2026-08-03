@@ -57,9 +57,13 @@ hand a stakeholder.
      traffic + engagement report in one run — handy as the artifact you hand a
      stakeholder. Offer it (AI summary uses credits); the read tools above already
      give you the numbers, so this is a convenience, not a dependency.
-   - **Off-page trend** (workflow): run **`Project Backlink Profile`** to report
-     whether referring domains / authority moved — progress isn't only on-page.
-     Cloud credits; offer and run on go-ahead.
+   - **Off-page trend:** Platform connected → `digispot_backlinks_trend`
+     (free, FOUNDATIONS §0.5) — the referring-domains / domain-rating series
+     across audits; lead with it. No Platform → the **`Project Backlink
+     Profile`** workflow is the fallback (cloud credits; offer, run on go-ahead).
+   - **Google fallback:** Spider's GSC/GA4 not connected but Platform present →
+     `digispot_gsc_analytics` / `digispot_ga_analytics` /
+     `digispot_google_summary`, labeled "as of last daily sync".
 6. **Explain dips before blaming the site:** if clicks/sessions fell in the
    window, call `get_google_search_incidents` for that window. A dip aligned with
    a Google **core/spam update** is Google-side — report it as such, don't
@@ -67,6 +71,24 @@ hand a stakeholder.
 7. **Report:** what improved (tie each win to the fix that caused it), what
    regressed (flag as new "Ship now"), what's still open. Be honest — don't
    credit a fix the data doesn't support.
+
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds:** if the project also runs cloud audits, one extra labeled
+line — `digispot_audit_runs` → two SUCCESS runs bracketing the fixes →
+`digispot_audit_deltas` (auto-picks the previous run). Report it as
+`cloud audit: <…>` — never merged into the Spider crawl timeline (§0.5 twins
+rule: different stores, different IDs).
+
+**Platform-only floor** (no Spider): the whole report runs on cloud data —
+`digispot_audit_runs` → `digispot_compare_audits { baselineRunId,
+comparisonRunId }` (or `digispot_audit_deltas` for auto-previous) for the
+fixed-vs-new issue diff and score delta; `digispot_backlinks_trend` for
+off-page; cached `digispot_gsc_analytics` / `digispot_ga_analytics` for the
+traffic overlay (labeled "as of last sync"); probe `digispot_score_trend` for
+the multi-run trend line. No `get_project_health` grade and no live URL
+inspection exist in the cloud — drop those lines from the template rather than
+inventing them.
 
 ## Output template
 

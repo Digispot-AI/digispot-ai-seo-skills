@@ -50,6 +50,21 @@ Reach for a sibling instead when: the user wants the *complete* picture →
    go-ahead, then poll `get_workflow_run` and paste the result into the fix line.
    If workflows aren't licensed / no AI model, skip this and hand-write the fix.
 
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode:** no change — the Spider path is strictly better here.
+
+**Platform-only floor** (no Spider): `digispot_seo_insights` is the cloud
+analogue of `get_quick_wins` — lead with it. Then `digispot_audit_issues`
+(severity filter, cheap-fix categories) for the shortlist, and
+`digispot_page_report { projectId, url }` per surviving page to pull the
+current title/meta for the paste-ready fix. Probe `digispot_audit_pages`
+(worst-score inventory) if present. Targeting is per-issue rather than
+per-attribute (`list_pages` filters don't exist in the cloud) — same fixes,
+blunter aim; note it. Traffic weighting only from cached
+`digispot_gsc_analytics` ("as of last sync"). The AI generate-the-fix
+workflows are Spider-side; hand-write the fixes instead.
+
 ## Output template
 
 ```

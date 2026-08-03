@@ -53,6 +53,14 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    `get_gsc_import_top_queries` to prioritize topics with proven impressions,
    and check `get_google_opportunities` so you don't propose content that
    duplicates a page already ranking.
+6.5. **Live demand check (Platform, metered — §0.6):** for the top "Write now"
+   candidates only, validate demand with real market numbers:
+   `digispot_keyword_lookup` (volume/CPC/difficulty) and
+   `digispot_related_keywords` (adjacent terms for the brief). These charge
+   1 credit each **even on cache hits** — check `digispot_usage_limits`, then
+   ONE batched consent for the whole set ("validating 8 keywords = 8 credits,
+   you have <n> left — go?"). This is the upgrade over banded imported volumes:
+   exact numbers, current, any keyword — not just imported ones.
 7. **Rank** the roadmap by `impact × intent-value × ease-to-produce` and group
    **Write now / Next / Later**. For "Write now" items, produce a full brief.
 8. **Optional — DRAFT a "Write now" page, don't just brief it** (workflow —
@@ -70,6 +78,19 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    an **action** (AI + cloud credits) — name that, run only on the user's
    go-ahead, poll `get_workflow_run`, and hand back the draft. Skip gracefully if
    unlicensed / no AI model, and deliver the brief alone.
+
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds:** step 6.5 (live demand). Everything else stays Spider-led.
+
+**Platform-only floor** (no Spider): `digispot_content_opportunities` replaces
+`get_content_opportunities` for gaps/clusters (cloud audit data); cached
+`digispot_gsc_analytics` replaces the GSC import cross-check (labeled "as of
+last sync"); step 6.5 works unchanged. Lost: the `list_pages` thin-content
+targeting (step 4's expand-or-merge list) — derive merge candidates from
+`digispot_audit_issues` duplicate/thin-content issue types instead, and say the
+targeting is issue-based, not attribute-based. For drafting, see
+`/seo-create-content`'s Platform notes.
 
 ## Output template
 

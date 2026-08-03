@@ -56,6 +56,32 @@ check → `/seo-audit`; you need the backlink profile of *your* site alone →
 5. **Write the paste-ready fixes** (FOUNDATIONS §6) for the on-page gaps, and a
    short "earn these links / this authority" note for the off-page gap.
 
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds** (do these even when the workflow runs — they're free and
+measure the competitor's URL directly, which the Spider's crawl of *your* site
+cannot):
+- **Speed gap, both URLs:** `digispot_lookup_pagespeed { url }` (lab) and
+  `digispot_lookup_crux { url }` (real-user field data) on `urlA` AND `urlB`.
+  This is the authoritative CWV comparison — cite it over crawl-only numbers.
+- **Domain age context:** `digispot_lookup_site_age` on both domains (free).
+- **Who else wins their links:** `digispot_backlinks_competitors { domain }` —
+  metered (1 BACKLINK_ANALYSIS on a fresh fetch, free from 7-day cache — §0.6
+  consent with numbers first).
+
+**Platform-only floor** (no Spider workflow): run the comparison yourself —
+you are the AI the workflow would have called:
+1. Fetch both pages and diff them point-by-point: title/meta, heading outline,
+   entities/questions covered, schema present (extract the JSON-LD), internal
+   anchor usage, word count/depth.
+2. Speed gap via the lookups above (free, identical to dual mode).
+3. Off-page gap: `digispot_backlinks_overview` for your domain (free) vs what's
+   publicly inferable for theirs; `digispot_backlinks_competitors` (consented)
+   for the shared-link-source campaign list.
+4. Deliver the same output template. What's lost vs the Spider workflow: the
+   crawl-verified page scores — say "content diff is agent-read, not
+   crawl-scored" in the header.
+
 ## Output template
 
 ```

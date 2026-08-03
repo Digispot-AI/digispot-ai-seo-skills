@@ -12,6 +12,12 @@ produces a precise `source → target` link plan with anchor text.
 
 **First, read `FOUNDATIONS.md` in this skill's folder** and resolve scope + crawl.
 
+> **Requires the Spider.** The site graph and link-insight engine are local-app
+> capabilities; the Platform has no equivalent yet. In platform-only mode
+> (FOUNDATIONS §0.5), say exactly that, point the user to the Spider app
+> (downloads.digispot.ai), and stop — do not improvise a link plan from issue
+> lists.
+
 ## When to use
 
 - Pages aren't getting crawled/ranked because nothing links to them.

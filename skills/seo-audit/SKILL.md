@@ -84,6 +84,39 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
 7. **Write paste-ready fixes** (FOUNDATIONS §6) for at least every "Ship now"
    item — exact title/meta strings, canonical tags, redirect maps, JSON-LD.
 
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds** (all free):
+- Off-page trend: `digispot_backlinks_trend` alongside `get_backlinks` — the
+  authority line over time, no workflow, no credits.
+- Second-source CWV on any URL: `digispot_lookup_crux` (field) /
+  `digispot_lookup_pagespeed` (lab) when a crawl CWV number needs confirming.
+- If the project also runs cloud audits, add ONE labeled `cloud audit <date>`
+  health line from `digispot_audit_overview` — never merged into crawl numbers.
+
+**Platform-only floor** (no Spider — the audit runs on cloud data):
+1. Resolve the platform project (§0.5). `digispot_audit_runs` → latest SUCCESS
+   run. None (or stale and the user wants fresh)? Offer a cloud run: find or
+   create a config (`digispot_list_audit_configs` → `digispot_get_audit_config`,
+   else `digispot_create_audit_config`), then quote the §0.6 run_audit template
+   — *1 SITE_AUDIT + up to crawlBudget PAGE_AUDIT, with the user's actual
+   remaining credits* — and `digispot_run_audit` only on go-ahead. Poll
+   `digispot_audit_runs`; `digispot_cancel_audit` refunds unused credits while
+   it's still queued/running.
+2. Grade + spine: `digispot_audit_overview`, `digispot_site_report`,
+   `digispot_seo_insights`, `digispot_audit_issues` (severity/category filters).
+   Rank by severity × ease; add traffic weight only if cached GSC data exists
+   (`digispot_gsc_analytics`, labeled "as of last sync").
+3. Per-page drilldown: `digispot_page_report { projectId, url }` on the worst
+   URLs from the issues list. Probe for `digispot_audit_pages` (worst-score
+   inventory) and `digispot_sitemap_coverage` — use them if present.
+4. Off-page: `digispot_backlinks_overview` + `digispot_backlinks_referring_domains`
+   (free cache reads).
+5. Not available in the cloud: site graph, device comparison, `list_pages`
+   attribute filters, live URL inspection, screenshots (unless
+   `digispot_page_screenshot` is present). Name the blind spots in the report
+   instead of improvising around them.
+
 ## Output template
 
 ```

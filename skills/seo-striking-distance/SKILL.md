@@ -66,6 +66,26 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
      gap + plan).
 6. **Rank** by combined opportunity score; group **Ship now / Plan**.
 
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds:**
+- **Exact volumes for the target queries** (metered — §0.6): the striking-
+  distance list gives position; `digispot_keyword_lookup` adds current
+  volume/CPC/difficulty so "Ship now" is demand-ranked, not just rank-ranked.
+  Batched consent, charges even on cache hits.
+- Free competitor context on a blocked query: `digispot_lookup_pagespeed` /
+  `digispot_lookup_crux` on the page ranking above you.
+
+**Platform-only floor** (no Spider, needs cached GSC on the Platform):
+`digispot_gsc_analytics` returns query rows *with position* — filter to 8–20
+yourself (labeled "as of last sync"); probe a `dimension:"page"` option for
+page-level rows and use it when present. Issue spine from
+`digispot_seo_insights` + `digispot_audit_issues`; per-page diagnosis via
+`digispot_page_report`. Lost: the precomputed traffic×issue join
+(`get_issues_with_traffic`) — do the join yourself across the two lists — and
+`get_link_insights` for the internal-links move (skip that prescription, or
+route to `/seo-internal-linking` which requires the Spider).
+
 ## Output template
 
 ```

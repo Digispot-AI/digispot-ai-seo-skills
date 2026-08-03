@@ -86,6 +86,29 @@ Reach for a sibling instead when: still deciding WHAT to write →
    gap's outline, and missing internal links to the cluster's existing pages
    (`get_link_insights` suggestions for the new topic).
 
+## Platform modes (FOUNDATIONS §0.5–§0.6)
+
+**Dual mode adds** (metered — §0.6): validate the chosen target's demand with
+`digispot_keyword_lookup` before spending draft credits, and pull
+`digispot_related_keywords` to enrich the outline — one batched consent for
+both.
+
+**Platform-only floor** (no Spider): the draft engine becomes the Platform's:
+1. Target selection from `digispot_content_opportunities` +
+   `digispot_keyword_lookup` (consented).
+2. **Grounding without the Knowledge base** (a Spider-only store): ask the user
+   for the business facts the draft needs (names, prices, credentials,
+   locations) — the no-invented-facts guardrail applies with extra force, since
+   there is no owner-approved fact source to check against. No reference-image
+   step (Spider-only) — skip step 6 entirely.
+3. Draft: `digispot_content_generate { projectId, topic, type, keywords,
+   targetWordCount }` — costs 1 AI_ACTION + 1 AI_CONTENT (§0.6: quote it,
+   go-ahead first; a failed plan auto-restores the AI_ACTION — don't retry
+   without asking). Poll `digispot_content_generate_status { requestId }`
+   (free) until complete, then fetch via `digispot_article_detail`.
+4. Same review pass, minus `get_link_insights` — suggest interlinks from the
+   cluster pages named by `digispot_content_opportunities` instead.
+
 ## Output
 
 - The chosen target + why (one line).
