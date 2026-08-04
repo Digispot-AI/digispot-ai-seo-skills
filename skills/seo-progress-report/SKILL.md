@@ -85,10 +85,12 @@ rule: different stores, different IDs).
 comparisonRunId }` (or `digispot_audit_deltas` for auto-previous) for the
 fixed-vs-new issue diff and score delta; `digispot_backlinks_trend` for
 off-page; cached `digispot_gsc_analytics` / `digispot_ga_analytics` for the
-traffic overlay (labeled "as of last sync"); probe `digispot_score_trend` for
-the multi-run trend line. No `get_project_health` grade and no live URL
-inspection exist in the cloud — drop those lines from the template rather than
-inventing them.
+traffic overlay (labeled "as of last sync"); `digispot_score_trend` for the
+multi-run trend line; and `digispot_project_health` for the `Grade <x>→<y>`
+headline — it uses the Spider's own bands, but say the grade is from a cloud
+audit, whose issue load is a `crawlBudget`-sized sample (FOUNDATIONS §0.5).
+Live URL inspection has no cloud equivalent — drop that line rather than
+inventing it.
 
 ## Output template
 

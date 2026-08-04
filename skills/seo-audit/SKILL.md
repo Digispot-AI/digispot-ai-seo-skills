@@ -103,19 +103,21 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    remaining credits* — and `digispot_run_audit` only on go-ahead. Poll
    `digispot_audit_runs`; `digispot_cancel_audit` refunds unused credits while
    it's still queued/running.
-2. Grade + spine: `digispot_audit_overview`, `digispot_site_report`,
+2. Grade + spine: `digispot_project_health` for the letter grade (Spider bands,
+   but a cloud audit samples only `crawlBudget` pages — say so), then
+   `digispot_audit_overview`, `digispot_site_report`,
    `digispot_seo_insights`, `digispot_audit_issues` (severity/category filters).
    Rank by severity × ease; add traffic weight only if cached GSC data exists
    (`digispot_gsc_analytics`, labeled "as of last sync").
 3. Per-page drilldown: `digispot_page_report { projectId, url }` on the worst
-   URLs from the issues list. Probe for `digispot_audit_pages` (worst-score
-   inventory) and `digispot_sitemap_coverage` — use them if present.
+   URLs from the issues list. `digispot_audit_pages` gives the worst-scoring
+   pages to target first; `digispot_sitemap_coverage` covers indexation.
 4. Off-page: `digispot_backlinks_overview` + `digispot_backlinks_referring_domains`
    (free cache reads).
-5. Not available in the cloud: site graph, device comparison, `list_pages`
-   attribute filters, live URL inspection, screenshots (unless
-   `digispot_page_screenshot` is present). Name the blind spots in the report
-   instead of improvising around them.
+5. Visual proof: `digispot_page_screenshot` (15-minute signed URL).
+6. Not available in the cloud: site graph, device comparison, `list_pages`
+   attribute filters, and live URL inspection. Name the blind spots in the
+   report instead of improvising around them.
 
 ## Output template
 

@@ -39,18 +39,20 @@ they complement rather than duplicate each other:
 |---|---|---|
 | Data | Local crawl DB + **live** Google OAuth | Cloud audit runs, live keyword/backlink market data, **cached** GSC/GA |
 | Cost | Free reads; crawls use local quota | Free reads + **credit-metered** tools (real money — see §0.6) |
-| Project | Bound per repo, injected — never pass it | Explicit UUID — resolve via `digispot_projects` |
+| Project | Bound per repo, injected — never pass it | Explicit UUID — resolve via `digispot_whoami` |
 
 **Detect the mode once per session** (probe by tool availability — `get_mcp_scope`
-= Spider present, `digispot_projects` = Platform present), then operate in it:
+= Spider present, `digispot_whoami` = Platform present), then operate in it:
 
 - **Dual** — Spider leads; Platform upgrades slot in where this doc or the skill
   says so. Cloud numbers are always labeled separately (see the twins rule).
 - **Spider-only** — exactly the classic behavior of this doc; silently skip
   anything Platform-flagged.
-- **Platform-only** — cloud paths only. Resolve the project from
-  `digispot_projects` by matching the repo's site domain (compare hosts; ignore
-  protocol / `www.` / trailing slash) and confirm the match in one line. Skills
+- **Platform-only** — cloud paths only. Call `digispot_whoami` first: it returns
+  the tenant, plan, whether a subscription is active (the reason credit tools
+  would otherwise refuse one at a time), and the reachable projects. Pick the
+  project by matching the repo's site domain (compare hosts; ignore protocol /
+  `www.` / trailing slash) and confirm the match in one line. Skills
   that need the local crawl degrade honestly: `/seo-internal-linking` requires
   the Spider — say so and stop; others follow their "Platform-only" notes.
   Page-level artifacts (screenshots, site graph, device comparison, `list_pages`
@@ -61,7 +63,13 @@ they complement rather than duplicate each other:
 | Question lives in… | Server | Tools |
 |---|---|---|
 | Local crawl detail (pages, issues, links, devices, site graph) | Spider only | the §4 map |
+| Who am I / what can this token reach | Platform | `digispot_whoami` (free) |
 | Cloud audit history & diffs | Platform | `digispot_audit_runs`, `digispot_audit_overview`, `digispot_compare_audits`, `digispot_audit_deltas` |
+| Letter-grade health snapshot | Platform | `digispot_project_health` (free) — same A+–F bands as the Spider's `get_project_health`, but see the caveat below |
+| Score history across runs | Platform | `digispot_score_trend` (free) |
+| Crawled-page inventory / worst-scoring pages | Platform | `digispot_audit_pages` (free) |
+| Sitemap coverage | Platform | `digispot_sitemap_coverage` (free) |
+| Screenshot of a crawled page | Platform | `digispot_page_screenshot` (free, 15-minute signed URL) |
 | **Live keyword demand** (volume / CPC / difficulty / related) | Platform | `digispot_keyword_lookup`, `digispot_related_keywords` — the only live-market source; Spider's `get_keywords` is the *imported* universe |
 | Backlink competitors / anchors | Platform | `digispot_backlinks_competitors`, `digispot_backlinks_anchors` (metered — §0.6) |
 | Backlink history trend | Platform | `digispot_backlinks_trend` (free) — prefer over the credit-spending workflow |
@@ -70,10 +78,15 @@ they complement rather than duplicate each other:
 | AI content draft | Spider's Page Writer workflow first; unlicensed / no model → Platform `digispot_content_generate` (§0.6) | |
 | Cloud audit provisioning | Platform | `digispot_list/get/create/update_audit_config`, `digispot_run_audit`, `digispot_cancel_audit` |
 
-Newer Platform tools may also exist (`digispot_score_trend`,
-`digispot_audit_pages`, `digispot_sitemap_coverage`, `digispot_page_screenshot`,
-a `dimension:"page"` option on `digispot_gsc_analytics`) — probe and use them
-when present; never assume them.
+`digispot_gsc_analytics` returns QUERY-dimension rows only. There is no
+page-dimension option — the Platform never stores those rows for GSC, so don't
+go looking for one.
+
+**Grades are not comparable across the two servers.** `digispot_project_health`
+uses the Spider's exact formula and bands, but a cloud audit only crawls
+`crawlBudget` pages while the Spider crawls the site — so the issue load feeding
+the grade is a sample. Never present a cloud grade as if it were the Spider's,
+and never chart them on one line.
 
 **HARD RULE — the twins are not the same data.** `compare_audits` (Spider) and
 `digispot_compare_audits` (Platform) diff **different stores**: local crawls vs

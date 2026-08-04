@@ -27,7 +27,7 @@ default to `/seo-quick-wins` for "help me improve".
 Probe tool availability (don't call anything yet — just check what's offered):
 
 - `get_mcp_scope` present → **Spider** (local crawler app) is connected.
-- `digispot_projects` present → **Platform** (cloud) is connected.
+- `digispot_whoami` present → **Platform** (cloud) is connected.
 
 Declare the mode (dual / spider-only / platform-only) in your first SEO reply
 and keep it for the whole session. The skills' FOUNDATIONS §0.5 defines how each
