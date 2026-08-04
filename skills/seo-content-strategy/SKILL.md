@@ -57,8 +57,9 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    candidates only, validate demand with real market numbers:
    `digispot_keyword_lookup` (volume/CPC/difficulty) and
    `digispot_related_keywords` (adjacent terms for the brief). These charge
-   1 credit each **even on cache hits** — check `digispot_usage_limits`, then
-   ONE batched consent for the whole set ("validating 8 keywords = 8 credits,
+   1 DATA credit each **even on cache hits** — check `digispot_usage_limits`
+   (the `creditPools.DATA` balance), then ONE batched consent for the whole set
+   ("validating 8 keywords = 8 DATA credits,
    you have <n> left — go?"). This is the upgrade over banded imported volumes:
    exact numbers, current, any keyword — not just imported ones.
 7. **Rank** the roadmap by `impact × intent-value × ease-to-produce` and group

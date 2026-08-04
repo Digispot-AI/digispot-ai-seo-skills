@@ -103,19 +103,28 @@ detection before any skill is invoked; continue either way.
 
 ## 0.6 Platform credits — the spend rules
 
-The Platform meters real money. **Exactly seven tools charge; everything else
-is free.** Never ask consent for free tools — consent fatigue kills the consent
+The Platform meters real money out of **two credit pools**, plus a few
+allowances that sit outside them. **Seven tools charge; everything else is
+free.** Never ask consent for a free tool — consent fatigue kills the consent
 that matters.
+
+**The two pools are on unrelated scales. NEVER sum them, and never present a
+combined "credits left" figure.**
+
+| Pool | Feeds | Rough scale |
+|---|---|---|
+| **DATA** | keyword lookups, SERP, backlink intel | 1 credit ≈ one lookup |
+| **AI** | drafts, summaries, chat, images | 1 credit ≈ 1/10 of a page draft |
 
 | Tool | Cost | Fine print |
 |---|---|---|
-| `digispot_keyword_lookup` | 1 KEYWORD_SEARCH_VOLUME | Charged **even on cache hit** — repeats are never free |
-| `digispot_related_keywords` | 1 KEYWORD_RELATED | Same — always charges |
-| `digispot_create_project` | 1 PROJECT_CREATION | Only when the user explicitly wants the site on the Platform |
-| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | The only variable-cost tool — read the config's `crawlBudget` first |
-| `digispot_backlinks_anchors` | 1 BACKLINK_ANALYSIS | Only on a **fresh provider fetch that returns data**; 7-day cache hits and empty results are free |
-| `digispot_backlinks_competitors` | 1 BACKLINK_ANALYSIS | Same cache-aware rule |
-| `digispot_content_generate` | 1 AI_ACTION + 1 AI_CONTENT | Two meters, staged; a failed plan auto-restores the AI_ACTION — don't panic-retry |
+| `digispot_keyword_lookup` | 1 DATA | Charged **even on cache hit** — repeats are never free |
+| `digispot_related_keywords` | 1 DATA | Same — always charges |
+| `digispot_backlinks_anchors` | 1 DATA | Only on a **fresh provider fetch that returns data**; 7-day cache hits and empty results are free |
+| `digispot_backlinks_competitors` | 1 DATA | Same cache-aware rule |
+| `digispot_content_generate` | **12 AI** (2 planning + 10 draft) | **×3 on an advanced text model — a measured run cost 36.** A failed plan auto-restores the planning credits; don't panic-retry |
+| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | Not pooled. The only variable-cost tool — read the config's `crawlBudget` first |
+| `digispot_create_project` | 1 project slot | Not pooled. Only when the user explicitly wants the site on the Platform |
 
 Everything else — all audit/config/issue/insight reads, `digispot_backlinks_trend`,
 `digispot_backlinks_overview`/`_referring_domains`, CrUX/PageSpeed/WHOIS lookups,
@@ -124,19 +133,21 @@ cached GSC/GA, `digispot_content_generate_status` polling, config CRUD — is
 
 **The spend protocol (extends "never silently spend"):**
 
-1. `digispot_usage_limits` (free) → check the metric's `remaining` BEFORE
-   proposing a spend. Zero remaining → relay the limit and the upgrade path,
-   don't retry, don't work around.
-2. **Batched consent.** One ask per batch, with real numbers — *"validating 12
-   keywords = 12 KEYWORD_SEARCH_VOLUME credits (you have 812 left) — go?"* —
-   never 12 separate asks.
-3. **`digispot_run_audit` gets its own quote.** Read the config first
-   (`digispot_get_audit_config`) and quote actual numbers: *"this run = 1 site +
-   up to <crawlBudget> page credits; you have <n> site audits and <m> page
-   credits left — go?"* A generic "this costs credits" under-informs by up to 50×.
+1. `digispot_usage_limits` (free) → read `creditPools` for the pool that tool
+   draws on, and `costPerCall` for what it costs. Never assume a cost: the tool
+   reports the live weights, and they change. Zero remaining → relay the limit
+   and the upgrade path, don't retry, don't work around.
+2. **Batched consent, priced from the pool.** One ask per batch with real
+   numbers — *"validating 12 keywords = 12 DATA credits, you have 508 — go?"*
+   — never 12 separate asks. For AI work, multiply: *"3 drafts = 36 AI credits
+   (12 each), you have 3,010."*
+3. **`digispot_run_audit` gets its own quote.** It isn't pooled. Read the config
+   first (`digispot_get_audit_config`) and quote actual numbers: *"this run = 1
+   site audit + up to <crawlBudget> page audits; you have <n> and <m> left —
+   go?"* A generic "this costs credits" under-informs by up to 50×.
 4. **`digispot_cancel_audit` is the refund valve** — free, and restores unused
-   SITE_AUDIT/PAGE_AUDIT credits while a run is QUEUED/PICKED/RUNNING. Mention
-   it when starting a run; use it if the user changes their mind.
+   SITE_AUDIT/PAGE_AUDIT while a run is QUEUED/PICKED/RUNNING. Mention it when
+   starting a run; use it if the user changes their mind.
 5. **Plan gates are answers, not obstacles.** "Active subscription required" or
    a FREE-plan lifetime AI-content cap is the session's answer — relay it once
    and fall back to the free path (same discipline as the Spider tier-gate rule).

@@ -58,17 +58,25 @@ merge them into one timeline.
 
 ## Credits — you are always asked first
 
-Platform tools are mostly free reads, but **seven** spend real credits:
-`keyword_lookup`, `related_keywords`, `create_project`, `run_audit`,
-`backlinks_anchors`, `backlinks_competitors`, `content_generate`.
+Platform tools are mostly free reads, but **seven** spend real credits, drawn
+from two separate pools — **DATA** (keyword, SERP and backlink lookups) and
+**AI** (drafts, summaries, images):
+
+| Tool | Cost |
+|---|---|
+| `keyword_lookup`, `related_keywords` | 1 DATA each — charged even on a cache hit |
+| `backlinks_anchors`, `backlinks_competitors` | 1 DATA, only on a fresh fetch; cached reads are free |
+| `content_generate` | 12 AI (×3 on an advanced model) |
+| `run_audit` | 1 site audit + crawlBudget × page audits (not pooled) |
+| `create_project` | 1 project slot (not pooled) |
 
 Before any of them, a skill will:
 
-1. Check your remaining balance (`digispot_usage_limits`, free).
-2. Ask once **with real numbers** — *"validating 12 keywords = 12 credits, you
-   have 812 left — go?"* — batched, never one prompt per call.
-3. Quote variable costs precisely: a cloud audit is `1 site + crawlBudget × page`
-   credits, read from your actual config before asking.
+1. Check the relevant pool's balance (`digispot_usage_limits`, free).
+2. Ask once **with real numbers** — *"validating 12 keywords = 12 DATA credits,
+   you have 508 — go?"* — batched, never one prompt per call.
+3. Quote variable costs precisely: a cloud audit is `1 site + crawlBudget × page`,
+   read from your actual config before asking.
 
 Free tools never prompt. A running cloud audit can be cancelled for a refund of
 unused credits. Full rules: [`_shared/seo-mcp-foundations.md`](_shared/seo-mcp-foundations.md) §0.6.

@@ -66,7 +66,7 @@ cannot):
   This is the authoritative CWV comparison — cite it over crawl-only numbers.
 - **Domain age context:** `digispot_lookup_site_age` on both domains (free).
 - **Who else wins their links:** `digispot_backlinks_competitors { domain }` —
-  metered (1 BACKLINK_ANALYSIS on a fresh fetch, free from 7-day cache — §0.6
+  metered (1 DATA credit on a fresh fetch, free from 7-day cache — §0.6
   consent with numbers first).
 
 **Platform-only floor** (no Spider workflow): run the comparison yourself —
