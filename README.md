@@ -67,7 +67,7 @@ from two separate pools — **DATA** (keyword, SERP and backlink lookups) and
 | `keyword_lookup`, `related_keywords` | 1 DATA each — charged even on a cache hit |
 | `backlinks_anchors`, `backlinks_competitors` | 1 DATA, only on a fresh fetch; cached reads are free |
 | `content_generate` | 12 AI (×3 on an advanced model) |
-| `run_audit` | 1 site audit + crawlBudget × page audits (not pooled) |
+| `digispot_run_audit` | 1 site audit + crawlBudget × page audits (not pooled) |
 | `create_project` | 1 project slot (not pooled) |
 
 Before any of them, a skill will:
