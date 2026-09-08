@@ -27,6 +27,17 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    `get_content_opportunities { section: "gaps", priority: "high" }` (then
    medium). Each gap returns title, why it matters, an outline, target keywords,
    the existing pages it extends, and priority/impact/intent.
+2b. **Competitor-evidenced gaps (if any rival is tracked — free, Spider 1.0.9+):**
+   `list_competitors` → if the set is non-empty, `get_competitor_gaps` for the
+   URL-section gap, then `get_competitor_gaps { section: "section", competitor,
+   sectionKey }` on each `absent` row for the exact rival pages you have no
+   counterpart for. Where standing was bought, `section: "keywords"` adds the
+   queries they rank for and you don't, already mapped onto your own clusters.
+   These gaps carry *evidence a competitor invested in the topic*, so rank them
+   above equally-sized gaps that have none. Honesty rules (FOUNDATIONS §4
+   Competitors) apply verbatim: an unverifiable rival or an unmeasurable section
+   is unknown, never zero, and a shallow crawl of your own site inflates the
+   missing list — the drill-down reports its coverage so you can weigh that.
 3. **Topic clusters — the authority map:**
    `get_content_opportunities { section: "clusters" }`. Use this to group gaps
    into pillar → cluster structure and spot under-built topics.

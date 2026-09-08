@@ -248,22 +248,36 @@ consultant, not a reporter — see §5.1.
 | Need | Tool |
 |---|---|
 | Start tracking a rival domain and profile it in the same call | `add_competitor { url, name? }` |
+| Which rivals are tracked, and their ids | `list_competitors` |
+| One rival: size, sections, topics, AI readiness — and standing / backlinks / timeline | `get_competitor { competitor, section? }` |
+| You vs every rival on the industry taxonomy (topic gaps, moats, unverifiable rivals) | `get_competitor_comparison` |
+| The URL-section gap, one section's missing pages, or the keyword gap | `get_competitor_gaps { section?, competitor?, sectionKey? }` |
 | Rival's page vs your page, point-by-point (+ backlink gap) | workflow **Competitor Page Comparison** (§4 Workflows) |
 | Your own off-page authority | `get_backlinks` |
 
-**Tracking is sitemap-only and free.** `add_competitor` reads the rival's sitemaps —
-no crawl, no AI, no cloud credits — and answers with what it learned: URL count,
-sections, topics inferred from URL wording. It is the ONLY competitor tool over MCP:
-standing (you vs every tracked rival on the project's industry taxonomy), section gap,
-keyword gap, timeline and rival backlinks live in the app's **Competitors** tab — send
-the user there (the tool returns the `ui_url`); never invent those numbers.
+**Every competitor tool above is a free, read-only local read.** `add_competitor` reads
+the rival's sitemaps — no crawl, no AI, no cloud credits — and the rest read what the app
+has already measured. Start with `list_competitors`; don't ask the user for a domain the
+project already tracks.
+
+**No MCP tool spends credits, and none re-profiles a site.** Market standing and rival
+backlinks are bought in the app's **Competitors** tab (the tools return its `ui_url`); the
+read tools show that data only once the user has bought it. There is no `refresh`
+parameter anywhere in this family — that is deliberate, not an oversight.
+
 Rules the data will punish you for ignoring:
 - **`blocked` / `unreachable` / `no-sitemap` mean UNVERIFIABLE, not small.** A rival whose
   WAF refused the read has unknown size; never rank it below one that answered.
+- **Unmeasured is never zero.** A standing or backlink column that was never bought, a
+  section neither side mined, a drill-down marked not measurable — all mean *unknown*.
+  Say so. Never report an unbought lookup as "no backlinks" or "no visibility", and never
+  read an empty missing-pages list on an unmeasurable section as full coverage.
+- **Your OWN side can fail too.** `get_competitor_comparison` reports whether your site
+  profiled successfully — if it did not, never say you cover zero topics; nothing was read.
 - **Counts are self-declared and directional.** A sitemap lists what the rival chose to
   publish, not what Google indexed — compare shape and coverage, never exact totals.
-- **Tier-capped.** Lower plans track one competitor; a cap or plan-gate reply is the
-  answer for this session — relay it, don't retry or work around it.
+- **Tier-capped.** Lower plans track one competitor, and timeline/keyword-gap need higher
+  tiers; a cap or plan-gate reply is the answer for this session — relay it, don't retry.
 - **Never a bare "add".** Confirm the domain with the user first: tracking is visible in
   the app and counts against the cap.
 

@@ -35,12 +35,25 @@ check → `/seo-audit`; you need the backlink profile of *your* site alone →
    Competitors). If the user gives a *domain* ("we lose to rival.com") rather than
    a page, confirm it and call `add_competitor { url: "rival.com" }`. It is free
    (sitemap read only — no crawl, no AI, no credits) and answers with the rival's
-   shape: URL count, sections, topics. Relay that outcome honestly —
-   `blocked` / `unreachable` / `no-sitemap` means *unverifiable*, not small — and
-   point the user to the app's **Competitors** tab (the tool returns its `ui_url`)
-   for standing, section gap, keyword gap and rival backlinks, which have no MCP
-   read yet. A cap or plan-gate reply is the answer; don't retry. Then continue:
-   the page-level comparison below is still where the "beat them" plan comes from.
+   shape: URL count, sections, topics. A cap or plan-gate reply is the answer;
+   don't retry.
+
+   **Read what is already tracked before asking the user anything** (all free,
+   Spider 1.0.9+): `list_competitors` for the tracked set and their ids;
+   `get_competitor { competitor: "rival.com" }` for one rival's size, sections,
+   topics and AI-answer readiness — plus `section: "standing"` / `"backlinks"`
+   whenever the user has already bought those; `get_competitor_comparison` for the
+   topic gaps across every rival; `get_competitor_gaps` for the URL-section gap and,
+   drilling in, the exact rival pages you have no counterpart for.
+
+   **Relay every outcome honestly.** `blocked` / `unreachable` / `no-sitemap` means
+   *unverifiable*, not small. A standing or backlink column that was never bought is
+   *unmeasured*, never zero — and buying it stays a click in the app's **Competitors**
+   tab (the tools return its `ui_url`), because it spends cloud credits. No MCP tool
+   will spend for you.
+
+   Then continue: the page-level comparison below is still where the "beat them"
+   plan comes from.
 2. **Get the two URLs.** `urlA` = your page, `urlB` = the competitor's page.
    - If the user only gives a query ("who beats me for `<query>`"), pull *your*
      ranking page from `get_gsc_import_top_queries` / `get_high_traffic_at_risk`,
@@ -98,8 +111,10 @@ Overall: you <n>/100 · them <m>/100   ·   backlinks: you <x> refdomains · the
 
 1. Scope confirmed.
 1b. User confirmed the domain → `add_competitor { url: "rival.com" }` → "Now tracking
-   rival.com: 1,240 self-declared sitemap URLs, 9 sections." Relayed as directional;
-   standing and section gap are in the Competitors tab.
+   rival.com: 1,240 self-declared sitemap URLs, 9 sections." Relayed as directional.
+   Then `get_competitor_gaps` → their `pricing` section has 4 pages to your 0, and the
+   drill-down names `implant-cost` as having no counterpart on your site. Standing was
+   never bought, so it is reported as unmeasured — not as zero visibility.
 2. `urlA = example.com/pricing`, `urlB = rival.com/pricing` (user supplied the rival).
 3. `list_workflows` → "Competitor Page Comparison" id; `run_workflow { input:
    { urlA, urlB, fetchBacklinks:true } }`; poll → completed.
