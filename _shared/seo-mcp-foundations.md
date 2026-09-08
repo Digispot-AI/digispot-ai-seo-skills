@@ -234,6 +234,7 @@ content decisions with demand evidence. Rules:
 | GA4: audience, geography, channels, landing pages, engagement | `get_ga4_sections` |
 | GSC headline KPIs (clicks/impr/CTR/position) | `get_google_metrics` |
 | Live single-URL index status | `get_url_inspection` |
+| Google's own sitemap health (submitted, last read, warnings/errors, discovered URLs) | `get_gsc_sitemaps` — Google's view, distinct from the crawler's read (`get_sitemap_coverage`) |
 | Google core/spam/Discover updates + outages in a window | `get_google_search_incidents { from, to }` |
 | Imports available | `list_gsc_imports` |
 
@@ -242,6 +243,41 @@ locations** (sessions by country), **traffic channels** (organic/direct/social/
 paid mix), **top landing pages** (with bounce + engaged time), a **channel
 trend** (is Organic growing?), and **native GA4 engagement rate**. Read it as a
 consultant, not a reporter — see §5.1.
+
+### Competitors (tracked rivals — Spider 1.0.9+)
+| Need | Tool |
+|---|---|
+| Start tracking a rival domain and profile it in the same call | `add_competitor { url, name? }` |
+| Rival's page vs your page, point-by-point (+ backlink gap) | workflow **Competitor Page Comparison** (§4 Workflows) |
+| Your own off-page authority | `get_backlinks` |
+
+**Tracking is sitemap-only and free.** `add_competitor` reads the rival's sitemaps —
+no crawl, no AI, no cloud credits — and answers with what it learned: URL count,
+sections, topics inferred from URL wording. It is the ONLY competitor tool over MCP:
+standing (you vs every tracked rival on the project's industry taxonomy), section gap,
+keyword gap, timeline and rival backlinks live in the app's **Competitors** tab — send
+the user there (the tool returns the `ui_url`); never invent those numbers.
+Rules the data will punish you for ignoring:
+- **`blocked` / `unreachable` / `no-sitemap` mean UNVERIFIABLE, not small.** A rival whose
+  WAF refused the read has unknown size; never rank it below one that answered.
+- **Counts are self-declared and directional.** A sitemap lists what the rival chose to
+  publish, not what Google indexed — compare shape and coverage, never exact totals.
+- **Tier-capped.** Lower plans track one competitor; a cap or plan-gate reply is the
+  answer for this session — relay it, don't retry or work around it.
+- **Never a bare "add".** Confirm the domain with the user first: tracking is visible in
+  the app and counts against the cap.
+
+### Knowledge (owner facts that ground every AI answer — Spider 1.0.8+)
+| Need | Tool |
+|---|---|
+| See what the AI is grounded on (all docs, or the exact injected block) | `get_knowledge { view: docs\|context }` |
+| Capture an owner-confirmed fact from the conversation | `propose_knowledge { title, category, body }` → inactive **draft** |
+| Activate a draft the user confirmed verbatim in chat | `activate_knowledge { id, confirmedBody, userConfirmed }` — opt-in per project, default OFF |
+
+**Review-first, by construction.** A proposal grounds nothing until the owner verifies
+it in the Knowledge tab (or confirms the exact body in chat with activation opted in).
+Write only facts the owner stated — never inferred from the site. If `activate_knowledge`
+refuses because the opt-in is off, that is the correct answer: say so and stop.
 
 ### Comparison (verifying fixes worked)
 | Need | Tool |

@@ -1,6 +1,6 @@
 ---
 name: seo-competitor
-description: Compare your page head-to-head against a competitor's ranking page and get a prioritized plan to beat them — point-by-point scores, content/schema/speed gaps, and the backlink gap. Use when a rival outranks you for a query and you want to know exactly why and what to change. For your own near-page-1 pushes use seo-striking-distance; for a full site audit use seo-audit.
+description: Compare your page head-to-head against a competitor's ranking page and get a prioritized plan to beat them — point-by-point scores, content/schema/speed gaps, and the backlink gap. Also starts tracking a rival domain in the Spider (sitemap profile, no crawl) when the user names one. Use when a rival outranks you for a query and you want to know exactly why and what to change. For your own near-page-1 pushes use seo-striking-distance; for a full site audit use seo-audit.
 trigger: /seo-competitor
 ---
 
@@ -20,6 +20,8 @@ rule — the comparison drives crawl + AI and (with backlinks) cloud credits.
 - A competitor outranks you for a target query and you want to know **why**.
 - "What does <rival page> have that mine doesn't?" / "how do I beat this page?".
 - You have (or can name) the specific competitor URL to compare against.
+- "Track <rival.com>" / "add <rival> as a competitor" — start tracking the domain
+  (Spider 1.0.9+, `add_competitor`), then compare pages as above.
 
 Reach for a sibling instead when: the goal is pushing your own pos-8–20 pages and
 links are only part of it → `/seo-striking-distance`; you want a full site health
@@ -29,11 +31,22 @@ check → `/seo-audit`; you need the backlink profile of *your* site alone →
 ## Procedure
 
 1. **Scope** (FOUNDATIONS §1). Confirm the project.
+1b. **Track the rival domain when the user names one** (FOUNDATIONS §4
+   Competitors). If the user gives a *domain* ("we lose to rival.com") rather than
+   a page, confirm it and call `add_competitor { url: "rival.com" }`. It is free
+   (sitemap read only — no crawl, no AI, no credits) and answers with the rival's
+   shape: URL count, sections, topics. Relay that outcome honestly —
+   `blocked` / `unreachable` / `no-sitemap` means *unverifiable*, not small — and
+   point the user to the app's **Competitors** tab (the tool returns its `ui_url`)
+   for standing, section gap, keyword gap and rival backlinks, which have no MCP
+   read yet. A cap or plan-gate reply is the answer; don't retry. Then continue:
+   the page-level comparison below is still where the "beat them" plan comes from.
 2. **Get the two URLs.** `urlA` = your page, `urlB` = the competitor's page.
    - If the user only gives a query ("who beats me for `<query>`"), pull *your*
      ranking page from `get_gsc_import_top_queries` / `get_high_traffic_at_risk`,
      and ask the user for the competitor URL that outranks it (the skill compares
-     two specific pages — it does not discover competitors).
+     two specific pages — it does not discover competitors, and tracking a domain
+     does not pick the page for you).
 3. **Run the comparison** (FOUNDATIONS §4 workflow pattern):
    - `list_workflows` → find **"Competitor Page Comparison"**, read its `id`.
    - `run_workflow { workflowId: <that id>, input: { urlA, urlB, fetchBacklinks: true } }`.
@@ -81,9 +94,12 @@ Overall: you <n>/100 · them <m>/100   ·   backlinks: you <x> refdomains · the
 
 ## Worked example
 
-> User: `/seo-competitor` — "example.com/pricing is beaten by rival.com/pricing for `<service> cost`"
+> User: `/seo-competitor` — "example.com/pricing is beaten by rival.com/pricing for `<service> cost` — and start tracking rival.com"
 
 1. Scope confirmed.
+1b. User confirmed the domain → `add_competitor { url: "rival.com" }` → "Now tracking
+   rival.com: 1,240 self-declared sitemap URLs, 9 sections." Relayed as directional;
+   standing and section gap are in the Competitors tab.
 2. `urlA = example.com/pricing`, `urlB = rival.com/pricing` (user supplied the rival).
 3. `list_workflows` → "Competitor Page Comparison" id; `run_workflow { input:
    { urlA, urlB, fetchBacklinks:true } }`; poll → completed.
