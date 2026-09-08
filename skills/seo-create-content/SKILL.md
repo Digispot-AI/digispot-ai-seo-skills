@@ -80,7 +80,10 @@ Reach for a sibling instead when: still deciding WHAT to write →
 7. **Run the draft.** `run_workflow` with the Page Writer recipe: keyword/title
    from step 3, outline points from the gap's brief, and the cover enabled.
    Then `get_workflow_run` until it completes — report where the MDX + image
-   landed (the run's artifacts, visible in Automations → run).
+   landed (the run's artifacts, visible in Automations → run). The image's
+   `imagePath` is app-internal and unreachable from outside: to place the cover
+   in the site repo call `download_workflow_image { runId }` (Spider 1.0.8+;
+   `format: png|jpeg` to convert) and use the absolute path it returns.
 8. **Review pass.** Read the produced draft against the knowledge context from
    step 2: flag any claim not grounded in owner facts, thin sections vs the
    gap's outline, and missing internal links to the cluster's existing pages

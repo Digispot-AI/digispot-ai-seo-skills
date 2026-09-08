@@ -301,6 +301,7 @@ build a combined GSC+GA4 report. Three tools drive them:
 | See the recipes available for this project (+ their inputs) | `list_workflows` |
 | Start a recipe | `run_workflow { workflowId, input }` → returns a `runId` |
 | Get a run's status + result | `get_workflow_run { runId }` |
+| Pull a generated image to a local file (Spider 1.0.8+) | `download_workflow_image { runId, stepKey?, format? }` → absolute path you can copy into the site repo |
 
 **The pattern (always these four steps):**
 
