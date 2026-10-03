@@ -193,12 +193,10 @@ team gets the same routing.
   every site.
 
 **What these skills don't cover yet**: domain-level competitor tracking and
-historical rank tracking (roadmap). Standalone keyword-volume research is
+historical rank tracking. Standalone keyword-volume research is
 covered when the Platform is connected (`digispot_keyword_lookup` — credit-
 metered, always consented); internal-link planning still requires the Spider's
 local site graph.
-
-See [`docs/specs/`](docs/specs/) for the full design spec.
 
 ## License
 
