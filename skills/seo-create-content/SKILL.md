@@ -78,7 +78,11 @@ Reach for a sibling instead when: still deciding WHAT to write →
    photo to upload in Image Studio to unlock the authentic version. Same for
    products: the pictured item must be the item the page discusses.
 7. **Run the draft.** `run_workflow` with the Page Writer recipe: keyword/title
-   from step 3, outline points from the gap's brief, and the cover enabled.
+   from step 3, outline points from the gap's brief, the gap's **Page type** and
+   location as printed by `get_content_opportunities`, and the cover enabled. For
+   an "improve existing page" gap pass `mode: "improve"` + `targetUrl` instead of
+   writing a second page (Spider 1.0.10+). The result lists existing pages that
+   should link to the new page — include them in your hand-off.
    Then `get_workflow_run` until it completes — report where the MDX + image
    landed (the run's artifacts, visible in Automations → run). The image's
    `imagePath` is app-internal and unreachable from outside: to place the cover

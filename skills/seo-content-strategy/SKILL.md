@@ -71,13 +71,17 @@ push → `/seo-striking-distance`; the issue is technical/on-page → `/seo-audi
    **`AI - Page Writer (MDX)`** recipe (renamed in Spider 1.0.4; older installs may
    still list it as "AI Page Draft (MDX)" or "AI Blog Draft (MDX)" — match whichever
    name `list_workflows` actually returns):
-   `input: { title, keyword, pageType?, intent?, location?, outlineHints? }`
-   — pull `keyword`/`intent` from the brief; set `pageType: "service"` for
-   commercial/transactional gaps (service page, 900–1300 words, business-identity
-   trust signals + booking CTA) and leave it default `"blog"` for informational
-   ones (1500–2000-word article); pass the brief's must-cover points as
-   `outlineHints` (one per line) so the researched outline honors them;
-   `location` only for a local business. It returns an on-brand MDX file. This is
+   `input: { title, keyword, pageType?, intent?, location?, outlineHints?, mode?, targetUrl? }`
+   — pull `keyword`/`intent` from the brief and pass the **Page type** that
+   `get_content_opportunities` prints for the gap (Spider 1.0.10+): `blog`
+   (informational), `service` (a service you offer), `cost` (price ranges, what
+   moves the price, a comparison table, honest caveats — a cost page is NOT a
+   service page), `comparison` (options weighed on stated criteria), `location`
+   (the service in one place). Pass the gap's `location` when it has one; pass the
+   brief's must-cover points as `outlineHints` (one per line). For an **improve
+   existing page** gap pass `mode: "improve"` and `targetUrl` — the writer
+   rewrites that page in place instead of drafting a competing one. Older Spiders
+   know only `blog`/`service`. It returns an on-brand MDX file. This is
    an **action** (AI + cloud credits) — name that, run only on the user's
    go-ahead, poll `get_workflow_run`, and hand back the draft. Skip gracefully if
    unlicensed / no AI model, and deliver the brief alone.
