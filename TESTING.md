@@ -33,9 +33,9 @@ Run these in a scratch folder, not a real site repo.
 
 | # | Pri | Scenario | Expected | Spider | Platform | Dual |
 |---|---|---|---|---|---|---|
-| 2.1 | 🔴 | Mode declared | First SEO reply names the mode; no calls to the server that isn't connected | [ ] | [P] 10-03 | [ ] |
-| 2.2 | 🔴 | Right project | Spider: the project bound in `.mcp.json`. Platform: the project whose domain matches the site, confirmed in one line; asks if none matches | [ ] | [P] 10-03 | [ ] |
-| 2.3 | 🟡 | Session reused | Run `/seo-audit` then `/seo-quick-wins` in one session: the second reuses the `[session]` card, no re-detection | [ ] | [P] 10-03 | [ ] |
+| 2.1 | 🔴 | Mode declared | First SEO reply names the mode; no calls to the server that isn't connected | [ ] | [P] | [ ] |
+| 2.2 | 🔴 | Right project | Spider: the project bound in `.mcp.json`. Platform: the project whose domain matches the site, confirmed in one line; asks if none matches | [ ] | [P] | [ ] |
+| 2.3 | 🟡 | Session reused | Run `/seo-audit` then `/seo-quick-wins` in one session: the second reuses the `[session]` card, no re-detection | [ ] | [P] | [ ] |
 | 2.4 | 🔴 | Data never mixed | Spider crawl numbers and cloud audit numbers are labelled separately; never one timeline, never one grade | [—] | [—] | [ ] |
 
 ---
@@ -46,14 +46,14 @@ One run per skill. "Expected" is what every mode must produce; the mode-specific
 
 | # | Pri | Skill | Expected | Spider | Platform | Dual |
 |---|---|---|---|---|---|---|
-| 3.1 | 🔴 | `/seo-audit` | Grade, then Ship now / Plan / Backlog with paste-ready fixes. Platform: says the cloud grade comes from a sample of pages and names what the cloud can't see (site graph, devices) | [ ] | [P] 10-03 | [ ] |
-| 3.2 | 🔴 | `/seo-quick-wins` | Only cheap fixes, each with exact text to paste — no "consider revising" | [ ] | [P] 10-03 | [ ] |
+| 3.1 | 🔴 | `/seo-audit` | Grade, then Ship now / Plan / Backlog with paste-ready fixes. Platform: says the cloud grade comes from a sample of pages and names what the cloud can't see (site graph, devices) | [ ] | [P] | [ ] |
+| 3.2 | 🔴 | `/seo-quick-wins` | Only cheap fixes, each with exact text to paste — no "consider revising" | [ ] | [P] | [ ] |
 | 3.3 | 🔴 | `/seo-striking-distance` | Queries at positions 8–20 with a move per page. Platform: GSC data labelled "as of last sync" | [ ] | [ ] | [ ] |
-| 3.4 | 🟡 | `/seo-content-strategy` | Gaps, clusters and cannibalization, ranked. Dual/Platform: live keyword volumes only after consent (§4) | [ ] | [P] 10-03 | [ ] |
-| 3.5 | 🔴 | `/seo-create-content` | A draft with no invented prices, names or credentials. Spider: grounded in the Knowledge base. Platform: asks you for the facts first | [ ] | [P] 10-03 | [ ] |
-| 3.6 | 🟡 | `/seo-competitor` | Gaps in content, schema, speed and backlinks, with a plan. Platform: header says the content diff is agent-read | [ ] | [P] 10-03 | [ ] |
-| 3.7 | 🔴 | `/seo-internal-linking` | Spider: `source → target` links with exact anchors. Platform: says it needs the Spider and stops | [ ] | [P] 10-03 | [ ] |
-| 3.8 | 🟡 | `/seo-progress-report` | What improved, what regressed, each tied to a fix. Dual: cloud audit results on their own labelled line | [ ] | [P] 10-03 | [ ] |
+| 3.4 | 🟡 | `/seo-content-strategy` | Gaps, clusters and cannibalization, ranked. Dual/Platform: live keyword volumes only after consent (§4) | [ ] | [P] | [ ] |
+| 3.5 | 🔴 | `/seo-create-content` | A draft with no invented prices, names or credentials. Spider: grounded in the Knowledge base. Platform: asks you for the facts first | [ ] | [P] | [ ] |
+| 3.6 | 🟡 | `/seo-competitor` | Gaps in content, schema, speed and backlinks, with a plan. Platform: header says the content diff is agent-read | [ ] | [P] | [ ] |
+| 3.7 | 🔴 | `/seo-internal-linking` | Spider: `source → target` links with exact anchors. Platform: says it needs the Spider and stops | [ ] | [P] | [ ] |
+| 3.8 | 🟡 | `/seo-progress-report` | What improved, what regressed, each tied to a fix. Dual: cloud audit results on their own labelled line | [ ] | [P] | [ ] |
 
 ---
 
@@ -61,11 +61,11 @@ One run per skill. "Expected" is what every mode must produce; the mode-specific
 
 | # | Pri | Scenario | Expected | Spider | Platform | Dual |
 |---|---|---|---|---|---|---|
-| 4.1 | 🔴 | No silent spend | Every paid action — a workflow, a crawl, a paid Platform tool — waits for an explicit "yes" in chat. Say "no": nothing runs | [ ] | [P] 10-03 | [ ] |
-| 4.2 | 🔴 | One ask, real numbers | Several paid calls → one ask with the count and your balance ("8 keywords = 8 DATA credits, you have N") | [—] | [P] 10-03 | [ ] |
-| 4.3 | 🔴 | Right price | A draft is quoted as 12 AI credits (×3 on an advanced model); a cloud audit as 1 site audit + up to `crawlBudget` page audits, plus the AI per topic cluster and the backlinks DATA when those add-ons are on | [—] | [P] 10-03 (re-run) | [ ] |
-| 4.4 | 🟡 | Pools kept apart | DATA and AI credits are quoted separately, never added up | [—] | [P] 10-03 | [ ] |
-| 4.5 | 🟡 | Free stays free | No consent ask before free reads | [ ] | [P] 10-03 | [ ] |
+| 4.1 | 🔴 | No silent spend | Every paid action — a workflow, a crawl, a paid Platform tool — waits for an explicit "yes" in chat. Say "no": nothing runs | [ ] | [P] | [ ] |
+| 4.2 | 🔴 | One ask, real numbers | Several paid calls → one ask with the count and your balance ("8 keywords = 8 DATA credits, you have N") | [—] | [P] | [ ] |
+| 4.3 | 🔴 | Right price | A draft is quoted as 12 AI credits (×3 on an advanced model); a cloud audit as 1 site audit + up to `crawlBudget` page audits, plus the AI per topic cluster and the backlinks DATA when those add-ons are on | [—] | [P] | [ ] |
+| 4.4 | 🟡 | Pools kept apart | DATA and AI credits are quoted separately, never added up | [—] | [P] | [ ] |
+| 4.5 | 🟡 | Free stays free | No consent ask before free reads | [ ] | [P] | [ ] |
 
 ---
 
@@ -73,11 +73,11 @@ One run per skill. "Expected" is what every mode must produce; the mode-specific
 
 | # | Pri | Scenario | Expected | Spider | Platform | Dual |
 |---|---|---|---|---|---|---|
-| 5.1 | 🟡 | No GSC | Says the traffic signal is missing and ranks by severity × ease; never invents positions or clicks | [ ] | [P] 10-03 | [ ] |
-| 5.2 | 🟡 | No recent crawl or audit | States the data's date and offers a fresh run (with the price, on Platform) | [ ] | [P] 10-03 | [ ] |
-| 5.3 | 🟡 | Server not reachable | Spider or Platform alone: says no Digispot server is reachable, how to check each (Spider app open? `/mcp` status), then stops. Dual: names the missing server, says what it can no longer do, then continues with the other | [ ] | [P] 10-03 (re-run) | [ ] |
-| 5.4 | 🔴 | Invalid or revoked key | Relays the error with the link to Settings → Connected Apps → MCP; no retry loop | [—] | [P] 10-03 (re-run) | [ ] |
-| 5.5 | 🟡 | Plan limit reached | Relays the limit and the upgrade link once; no workaround | [ ] | [P] 10-03 (re-run) | [ ] |
+| 5.1 | 🟡 | No GSC | Says the traffic signal is missing and ranks by severity × ease; never invents positions or clicks | [ ] | [P] | [ ] |
+| 5.2 | 🟡 | No recent crawl or audit | States the data's date and offers a fresh run (with the price, on Platform) | [ ] | [P] | [ ] |
+| 5.3 | 🟡 | Server not reachable | Spider or Platform alone: says no Digispot server is reachable, how to check each (Spider app open? `/mcp` status), then stops. Dual: names the missing server, says what it can no longer do, then continues with the other | [ ] | [P] | [ ] |
+| 5.4 | 🔴 | Invalid or revoked key | Relays the error with the link to Settings → Connected Apps → MCP; no retry loop | [—] | [P] | [ ] |
+| 5.5 | 🟡 | Plan limit reached | Relays the limit and the upgrade link once; no workaround | [ ] | [P] | [ ] |
 
 ---
 
@@ -87,7 +87,7 @@ Run these in a site repo set up with `--project`. Never type a slash command.
 
 | # | Pri | Scenario | Expected | Spider | Platform | Dual |
 |---|---|---|---|---|---|---|
-| 6.1 | 🔴 | "what should I fix first?" | Runs `/seo-quick-wins` on its own; never asks you to type a slash command | [ ] | [P] 10-03 | [ ] |
-| 6.2 | 🔴 | "fix my SEO" | Runs `/seo-audit`, then `/seo-quick-wins` without being asked; quick wins start from the audit's `[handoff]` pages; stops before `/seo-progress-report` and says it resumes once fixes ship and a newer crawl exists | [ ] | [P] 10-03 | [ ] |
-| 6.3 | 🔴 | "grow my traffic" | Chain stops before the draft to ask which gap to write and to confirm the AI credits; "no" stops the chain | [ ] | [P] 10-03 | [ ] |
-| 6.4 | 🟡 | "just audit my site" | Runs `/seo-audit` alone; ends with a one-line next-step suggestion, not a chain | [ ] | [P] 10-03 | [ ] |
+| 6.1 | 🔴 | "what should I fix first?" | Runs `/seo-quick-wins` on its own; never asks you to type a slash command | [ ] | [P] | [ ] |
+| 6.2 | 🔴 | "fix my SEO" | Runs `/seo-audit`, then `/seo-quick-wins` without being asked; quick wins start from the audit's `[handoff]` pages; stops before `/seo-progress-report` and says it resumes once fixes ship and a newer crawl exists | [ ] | [P] | [ ] |
+| 6.3 | 🔴 | "grow my traffic" | Chain stops before the draft to ask which gap to write and to confirm the AI credits; "no" stops the chain | [ ] | [P] | [ ] |
+| 6.4 | 🟡 | "just audit my site" | Runs `/seo-audit` alone; ends with a one-line next-step suggestion, not a chain | [ ] | [P] | [ ] |
