@@ -76,7 +76,7 @@ they complement rather than duplicate each other:
 | Field/lab performance of **any URL** — including a competitor's | Platform | `digispot_lookup_crux`, `digispot_lookup_pagespeed` (free); domain age: `digispot_lookup_site_age` |
 | GSC / GA4 | **Spider first** (live OAuth, richer). Spider not connected → Platform's cached `digispot_gsc_analytics` / `digispot_ga_analytics` / `digispot_google_summary`, labeled "as of last daily sync" | |
 | AI content draft | Spider's Page Writer workflow first; unlicensed / no model → Platform `digispot_content_generate` (§0.6) | |
-| Cloud audit provisioning | Platform | `digispot_list/get/create/update_audit_config`, `digispot_run_audit`, `digispot_cancel_audit` |
+| Cloud audit provisioning | Platform | `digispot_list_audit_configs`, `digispot_get_audit_config`, `digispot_create_audit_config`, `digispot_update_audit_config`, `digispot_run_audit`, `digispot_cancel_audit` |
 
 `digispot_gsc_analytics` returns QUERY-dimension rows only. There is no
 page-dimension option — the Platform never stores those rows for GSC, so don't
@@ -117,8 +117,8 @@ detection before any skill is invoked; continue either way.
 ## 0.6 Platform credits — the spend rules
 
 The Platform meters real money out of **two credit pools**, plus a few
-allowances that sit outside them. **Seven tools charge; everything else is
-free.** Never ask consent for a free tool — consent fatigue kills the consent
+allowances that sit outside them. **Only the tools in the table below charge;
+everything else is free.** Never ask consent for a free tool — consent fatigue kills the consent
 that matters.
 
 **The two pools are on unrelated scales. NEVER sum them, and never present a
@@ -126,7 +126,7 @@ combined "credits left" figure.**
 
 | Pool | Feeds | Rough scale |
 |---|---|---|
-| **DATA** | keyword lookups, SERP, backlink intel | 1 credit ≈ one lookup |
+| **DATA** | keyword lookups, SERP, backlink intel, AI-mentions lookups | 1 credit ≈ one keyword lookup |
 | **AI** | drafts, summaries, chat, images | 1 credit ≈ 1/10 of a page draft |
 
 | Tool | Cost | Fine print |
@@ -135,12 +135,17 @@ combined "credits left" figure.**
 | `digispot_related_keywords` | 1 DATA | Same — always charges |
 | `digispot_backlinks_anchors` | 1 DATA | Only on a **fresh provider fetch that returns data**; 7-day cache hits and empty results are free |
 | `digispot_backlinks_competitors` | 1 DATA | Same cache-aware rule |
+| `digispot_mentions_lookup` | **Variable DATA** (typically ~1–24+) | Only on a real fetch; 24h cache hits are free. Read the live cost from `digispot_usage_limits` before quoting |
+| `digispot_mentions_compare` | Same as `digispot_mentions_lookup` | Charged **once per call**, however many competitors |
+| `digispot_mentions_timeseries_summary` | Same as `digispot_mentions_lookup` | 24h cache. `digispot_mentions_timeseries` (free) covers your own tracked window |
+| `digispot_mentions_top_pages_refresh` | Same as `digispot_mentions_lookup` | 24h cache. `digispot_mentions_top_pages` (free) ranks from your own tracking history |
 | `digispot_content_generate` | **12 AI** (2 planning + 10 draft) | **×3 on an advanced text model — a measured run cost 36.** A failed plan auto-restores the planning credits; don't panic-retry |
-| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | Not pooled. The only variable-cost tool — read the config's `crawlBudget` first |
+| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | Not pooled. Scales with `crawlBudget` — read the config first |
 | `digispot_create_project` | 1 project slot | Not pooled. Only when the user explicitly wants the site on the Platform |
 
 Everything else — all audit/config/issue/insight reads, `digispot_backlinks_trend`,
-`digispot_backlinks_overview`/`_referring_domains`, CrUX/PageSpeed/WHOIS lookups,
+`digispot_backlinks_overview`, `digispot_backlinks_referring_domains`, the other
+`digispot_mentions_*` tools, CrUX/PageSpeed/WHOIS lookups,
 cached GSC/GA, `digispot_content_generate_status` polling, config CRUD — is
 **free**.
 

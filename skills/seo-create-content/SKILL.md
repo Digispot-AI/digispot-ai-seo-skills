@@ -102,9 +102,9 @@ both.
    there is no owner-approved fact source to check against. No reference-image
    step (Spider-only) — skip step 6 entirely.
 3. Draft: `digispot_content_generate { projectId, topic, type, keywords,
-   targetWordCount }` — costs 1 AI_ACTION + 1 AI_CONTENT (§0.6: quote it,
-   go-ahead first; a failed plan auto-restores the AI_ACTION — don't retry
-   without asking). Poll `digispot_content_generate_status { requestId }`
+   targetWordCount }` — costs 12 AI credits (2 planning + 10 draft), ×3 on an
+   advanced text model (§0.6: quote it, go-ahead first; a failed plan
+   auto-restores the planning credits — don't retry without asking). Poll `digispot_content_generate_status { requestId }`
    (free) until complete, then fetch via `digispot_article_detail`.
 4. Same review pass, minus `get_link_insights` — suggest interlinks from the
    cluster pages named by `digispot_content_opportunities` instead.

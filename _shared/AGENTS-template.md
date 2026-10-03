@@ -41,8 +41,8 @@ re-probing servers or re-resolving scope/crawl (details: FOUNDATIONS §0.5).
 
 ## Money
 
-Platform tools prefixed `digispot_` can spend real credits (exactly seven of
-them do). The skills handle the consent protocol (FOUNDATIONS §0.6) — never
+Some Platform tools prefixed `digispot_` spend real credits — FOUNDATIONS §0.6
+lists every one; all others are free. The skills handle the consent protocol (FOUNDATIONS §0.6) — never
 call a credit-charging Platform tool outside a skill without checking
 `digispot_usage_limits` and getting explicit user consent with real numbers.
 <!-- digispot-seo:end -->

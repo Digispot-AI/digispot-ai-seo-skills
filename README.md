@@ -58,17 +58,18 @@ merge them into one timeline.
 
 ## Credits — you are always asked first
 
-Platform tools are mostly free reads, but **seven** spend real credits, drawn
-from two separate pools — **DATA** (keyword, SERP and backlink lookups) and
-**AI** (drafts, summaries, images):
+Platform tools are mostly free reads, but the ones below spend real credits,
+drawn from two separate pools — **DATA** (keyword, SERP, backlink and AI-mentions
+lookups) and **AI** (drafts, summaries, images):
 
 | Tool | Cost |
 |---|---|
-| `keyword_lookup`, `related_keywords` | 1 DATA each — charged even on a cache hit |
-| `backlinks_anchors`, `backlinks_competitors` | 1 DATA, only on a fresh fetch; cached reads are free |
-| `content_generate` | 12 AI (×3 on an advanced model) |
+| `digispot_keyword_lookup`, `digispot_related_keywords` | 1 DATA each — charged even on a cache hit |
+| `digispot_backlinks_anchors`, `digispot_backlinks_competitors` | 1 DATA, only on a fresh fetch; cached reads are free |
+| `digispot_mentions_lookup`, `digispot_mentions_compare`, `digispot_mentions_timeseries_summary`, `digispot_mentions_top_pages_refresh` | Variable DATA, only on a fresh fetch; 24h cache hits are free |
+| `digispot_content_generate` | 12 AI (×3 on an advanced model) |
 | `digispot_run_audit` | 1 site audit + crawlBudget × page audits (not pooled) |
-| `create_project` | 1 project slot (not pooled) |
+| `digispot_create_project` | 1 project slot (not pooled) |
 
 Before any of them, a skill will:
 

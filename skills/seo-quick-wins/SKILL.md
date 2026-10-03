@@ -58,8 +58,8 @@ Reach for a sibling instead when: the user wants the *complete* picture →
 analogue of `get_quick_wins` — lead with it. Then `digispot_audit_issues`
 (severity filter, cheap-fix categories) for the shortlist, and
 `digispot_page_report { projectId, url }` per surviving page to pull the
-current title/meta for the paste-ready fix. Probe `digispot_audit_pages`
-(worst-score inventory) if present. Targeting is per-issue rather than
+current title/meta for the paste-ready fix. Use `digispot_audit_pages`
+(worst-score inventory) to pick which pages to check first. Targeting is per-issue rather than
 per-attribute (`list_pages` filters don't exist in the cloud) — same fixes,
 blunter aim; note it. Traffic weighting only from cached
 `digispot_gsc_analytics` ("as of last sync"). The AI generate-the-fix

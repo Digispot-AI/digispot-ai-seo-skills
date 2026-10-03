@@ -78,8 +78,8 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
 
 **Platform-only floor** (no Spider, needs cached GSC on the Platform):
 `digispot_gsc_analytics` returns query rows *with position* — filter to 8–20
-yourself (labeled "as of last sync"); probe a `dimension:"page"` option for
-page-level rows and use it when present. Issue spine from
+yourself (labeled "as of last sync"). Rows are query-level only — there is no
+page dimension (FOUNDATIONS §0.5). Issue spine from
 `digispot_seo_insights` + `digispot_audit_issues`; per-page diagnosis via
 `digispot_page_report`. Lost: the precomputed traffic×issue join
 (`get_issues_with_traffic`) — do the join yourself across the two lists — and

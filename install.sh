@@ -20,7 +20,7 @@
 #   ./install.sh --project <path-to-site-repo>
 #     Writes/refreshes the Digispot routing block in <repo>/AGENTS.md (between
 #     "digispot-seo:begin/end" markers — your own AGENTS.md content is kept),
-#     points CLAUDE.md at it if no CLAUDE.md exists, and sanity-checks .mcp.json.
+#     makes CLAUDE.md import it (creating CLAUDE.md if needed), and sanity-checks .mcp.json.
 #   Piped form (no clone):
 #     curl -fsSL <raw-url>/install.sh | bash -s -- --project ~/code/my-site
 #
@@ -76,6 +76,11 @@ if [ "${1:-}" = "--project" ]; then
   END='<!-- digispot-seo:end -->'
 
   if [ -f "$AGENTS_FILE" ] && grep -q "$BEGIN" "$AGENTS_FILE"; then
+    # Without the end marker the rewrite below would drop everything after the block.
+    grep -q "^$END" "$AGENTS_FILE" || {
+      echo "✗ $AGENTS_FILE has '$BEGIN' but no '$END' line — restore the end marker (or delete the block) and re-run" >&2
+      exit 1
+    }
     # Replace the existing marked block in place; keep everything else.
     awk -v tmpl="$AGENTS_TEMPLATE" -v begin="$BEGIN" -v end="$END" '
       index($0, begin) == 1 { skipping = 1; while ((getline line < tmpl) > 0) print line; close(tmpl); next }
@@ -92,10 +97,16 @@ if [ "${1:-}" = "--project" ]; then
     echo "  ✓ created $AGENTS_FILE"
   fi
 
-  # Claude Code reads CLAUDE.md; point it at AGENTS.md if the repo has none.
-  if [ ! -f "$PROJECT_DIR/CLAUDE.md" ]; then
-    printf '@AGENTS.md\n' > "$PROJECT_DIR/CLAUDE.md"
+  # Claude Code reads CLAUDE.md, not AGENTS.md — make sure CLAUDE.md imports it.
+  CLAUDE_FILE="$PROJECT_DIR/CLAUDE.md"
+  if [ ! -f "$CLAUDE_FILE" ]; then
+    printf '@AGENTS.md\n' > "$CLAUDE_FILE"
     echo "  ✓ created CLAUDE.md → @AGENTS.md import"
+  elif grep -q "^@AGENTS.md" "$CLAUDE_FILE"; then
+    echo "  ✓ CLAUDE.md already imports AGENTS.md"
+  else
+    printf '\n@AGENTS.md\n' >> "$CLAUDE_FILE"
+    echo "  ✓ added @AGENTS.md import to existing CLAUDE.md"
   fi
 
   # Sanity-check the MCP binding.
@@ -142,8 +153,6 @@ done
 echo "Done — $count skill(s) installed. Restart Claude Code to pick them up."
 if [ "$INSTALL_MODE" = "clone" ]; then
   echo "Note: skills are symlinked into this clone — keep it where it is, or re-run from elsewhere."
-fi
-if [ "$INSTALL_MODE" = "clone" ]; then
   echo "Next: set up a site repo →  ./install.sh --project <path-to-site-repo>"
 else
   echo "Next: set up a site repo →  $CACHE_DIR/install.sh --project <path-to-site-repo>"
