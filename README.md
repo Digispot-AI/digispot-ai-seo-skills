@@ -16,7 +16,7 @@ volumes, backlink intelligence, CrUX/PageSpeed on any URL, AI drafts). Either
 alone works; together is best.
 
 > **Get the app → [downloads.digispot.ai](https://downloads.digispot.ai/)** ·
-> **or a Platform token →** app.digispot.ai/settings/tokens
+> **or a Platform token →** app.digispot.ai/settings/connected-apps/mcp
 
 ## How it works
 
@@ -89,7 +89,7 @@ unused credits. Full rules: [`_shared/seo-mcp-foundations.md`](_shared/seo-mcp-f
     `digispot-seo` MCP server, bound to one project per repo via `--project`
     in `.mcp.json`.
   - The **Digispot Platform** MCP — an `mcp_` token from
-    app.digispot.ai/settings/tokens, configured as a second MCP server.
+    app.digispot.ai/settings/connected-apps/mcp, configured as a second MCP server.
 - Claude Code with the server(s) in the repo's `.mcp.json`.
 - For traffic-weighted ranking: Google Search Console / GA4 connected in
   Digispot. Without it the skills still work, ranking by severity × ease.
