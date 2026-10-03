@@ -74,6 +74,9 @@ Pages: <n> · orphans: <n> · pages >3 clicks deep: <n> · hub pages: <list>
 - <url>: <N> exact-match "<anchor>" inbound → vary to "<a>", "<b>"
 
 ## Verify after shipping: re-crawl → /seo-progress-report (orphans should drop)
+
+[handoff] from: /seo-internal-linking · next: /seo-progress-report · chain: <name or —> ·
+          pages: <target urls above> · queries: — · note: run after the links ship and a newer crawl exists
 ```
 
 ## Worked example

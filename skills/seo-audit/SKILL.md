@@ -141,6 +141,9 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
 
 ## Verify after shipping
 Re-crawl, then /seo-progress-report against crawl <date> to confirm fixes cleared.
+
+[handoff] from: /seo-audit · next: /seo-quick-wins · chain: <name or —> ·
+          pages: <Top 5 urls> · queries: — · note: <the dominant theme, e.g. "mostly content gaps" | —>
 ```
 
 ## Worked example

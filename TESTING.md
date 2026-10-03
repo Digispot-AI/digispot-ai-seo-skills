@@ -78,3 +78,16 @@ One run per skill. "Expected" is what every mode must produce; the mode-specific
 | 5.3 | 🟡 | Server not reachable | Says which server is down. Spider or Platform alone: stops. Dual: says what it can no longer do, then continues with the other | [ ] | [ ] | [ ] |
 | 5.4 | 🔴 | Invalid or revoked key | Relays the error with the link to Settings → Connected Apps → MCP; no retry loop | [—] | [ ] | [ ] |
 | 5.5 | 🟡 | Plan limit reached | Relays the limit and the upgrade link once; no workaround | [ ] | [ ] | [ ] |
+
+---
+
+## 6. Plain-English asks and chains
+
+Run these in a site repo set up with `--project`. Never type a slash command.
+
+| # | Pri | Scenario | Expected | Spider | Platform | Dual |
+|---|---|---|---|---|---|---|
+| 6.1 | 🔴 | "what should I fix first?" | Runs `/seo-quick-wins` on its own; never asks you to type a slash command | [ ] | [ ] | [ ] |
+| 6.2 | 🔴 | "fix my SEO" | Runs `/seo-audit`, then `/seo-quick-wins` without being asked; quick wins start from the audit's `[handoff]` pages; stops before `/seo-progress-report` and says it resumes once fixes ship and a newer crawl exists | [ ] | [ ] | [ ] |
+| 6.3 | 🔴 | "grow my traffic" | Chain stops before the draft to ask which gap to write and to confirm the AI credits; "no" stops the chain | [ ] | [ ] | [ ] |
+| 6.4 | 🟡 | "just audit my site" | Runs `/seo-audit` alone; ends with a one-line next-step suggestion, not a chain | [ ] | [ ] | [ ] |

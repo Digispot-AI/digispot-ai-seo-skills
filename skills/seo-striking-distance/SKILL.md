@@ -103,6 +103,9 @@ GSC window: <dates> · queries pos 8-20: <n> · opportunity pages: <n>
 **Expected:** push "<q1>" from pos <x> toward page 1.
 
 ## Verify after shipping: re-crawl + watch GSC position → /seo-progress-report
+
+[handoff] from: /seo-striking-distance · next: /seo-content-strategy (or /seo-competitor if a rival is the blocker) · chain: <name or —> ·
+          pages: <opportunity page urls> · queries: <target queries> · note: <queries no existing page can win → new content | —>
 ```
 
 ## Worked example

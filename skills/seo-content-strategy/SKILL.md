@@ -115,6 +115,9 @@ targeting is issue-based, not attribute-based. For drafting, see
 ### Next / Later: <titles>
 
 ## Verify after shipping: publish → re-crawl → /seo-progress-report
+
+[handoff] from: /seo-content-strategy · next: /seo-create-content · chain: <name or —> ·
+          pages: <"Interlink with" urls> · queries: <Write-now target keywords> · note: <Write-now working title>
 ```
 
 ## Worked example

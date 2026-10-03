@@ -108,6 +108,32 @@ If a `[session]` card already exists in this conversation, **reuse it** — do n
 re-probe servers or re-resolve scope/crawl. Re-resolve only if it's stale (new
 crawl requested, project changed) and then emit an updated card.
 
+**Handoff card — pass the shortlist to the next skill.** End every skill's
+output with one line naming the natural next skill and what it should start from:
+
+```
+[handoff] from: /<this-skill> · next: /<next-skill> or — · chain: <chain name or —> ·
+          pages: <≤10 urls> · queries: <≤10 "query" strings> · note: <one line or —>
+```
+
+- **Only URLs and query strings go in it** — never crawl IDs or cloud audit
+  IDs; those live in the `[session]` card (twins rule above).
+- **Receiving a handoff:** when the latest `[handoff]` names this skill as
+  `next`, start from its pages/queries instead of re-discovering them. Still
+  apply the freshness checks, and widen the search if the shortlist is thin.
+  Ignore it if the user has since changed the subject.
+- **Running a chain:** when `chain:` is set (the user asked for a multi-step
+  plan — see the `AGENTS.md` routing block), give a one-line summary of this
+  step and invoke `next` straight away, without asking the user to type it.
+  Pause only for:
+  - credit consent (§0.6), with real numbers;
+  - a choice only the user can make (which competitor, which gap to write);
+  - work the user has to ship first — `/seo-progress-report` needs fixes shipped
+    and a newer crawl or cloud audit, so stop and say what will resume the chain.
+- **No chain:** suggest `next` in one line and stop.
+- **Platform-only:** if `next` is `/seo-internal-linking` (Spider only), skip
+  that step, say why, and hand off to the step after it.
+
 If this repo has no `AGENTS.md` routing block for these skills, offer once to
 create it (a single file write) so future sessions get routing and mode
 detection before any skill is invoked; continue either way.

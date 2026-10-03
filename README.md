@@ -30,8 +30,9 @@ alone works; together is best.
 3. (Recommended) ~/.digispot/seo-skills/install.sh --project <your-site-repo>
      Drops an AGENTS.md routing block into the site repo so any agent session
      there routes SEO asks to the right skill and detects your setup once.
-4. Invoke a skill in Claude Code — e.g. /seo-audit
-     Claude drives the MCP and hands you a ranked, paste-ready fix plan.
+4. Ask in plain English — e.g. "fix my SEO" — or invoke a skill directly
+     Claude picks the skill (or a chain of them), drives the MCP and hands you
+     a ranked, paste-ready fix plan.
 ```
 
 Works the same on an e-commerce store, a SaaS site, a local-business site, a
@@ -174,6 +175,12 @@ block** into the repo, so a plain-English ask ("traffic dropped, help") routes t
 the right skill without you remembering the slash command — and the session
 detects which servers are connected once, up front. Commit it and your whole
 team gets the same routing.
+
+Multi-step asks run as a **chain**, with no slash commands: "fix my SEO" runs
+`/seo-audit` → `/seo-quick-wins`, then `/seo-progress-report` once your fixes
+ship. Each skill ends with a `[handoff]` line, so the next one starts from the
+pages and queries the last one found. A chain pauses only to ask before spending
+credits, for a choice only you can make, or while you ship fixes.
 
 ## Design notes
 

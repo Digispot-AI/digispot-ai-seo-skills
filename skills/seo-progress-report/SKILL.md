@@ -117,6 +117,9 @@ Score <a> → <b> (<+/-n>) · Issues fixed: <n> · New issues: <n> · Grade <x>�
 - <if a dip: "Aligns with <Month> Google <core/spam> update — Google-side, not a site regression">
 
 ## Next: <re-run /seo-quick-wins on regressions | continue /seo-striking-distance>
+
+[handoff] from: /seo-progress-report · next: /seo-quick-wins | /seo-striking-distance | — · chain: <name or —> ·
+          pages: <regressed or still-open urls> · queries: <queries that lost position | —> · note: —
 ```
 
 ## Worked example

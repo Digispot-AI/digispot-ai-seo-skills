@@ -103,6 +103,9 @@ Overall: you <n>/100 · them <m>/100   ·   backlinks: you <x> refdomains · the
   the specific sources linking to them worth pursuing>
 
 ## Verify after shipping: re-crawl your page → /seo-progress-report; re-run /seo-competitor to confirm the gap closed.
+
+[handoff] from: /seo-competitor · next: /seo-content-strategy · chain: <name or —> ·
+          pages: <urlA> · queries: <the contested query> · note: <topics/entities they cover and you don't>
 ```
 
 ## Worked example

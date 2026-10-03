@@ -77,6 +77,9 @@ Ranked by ROI · all shippable this week · GSC signal: <on/off>
 
 ## Est. total traffic at stake: ~<clicks>/mo across <n> fixes
 ## Verify after shipping: re-crawl → /seo-progress-report
+
+[handoff] from: /seo-quick-wins · next: /seo-progress-report · chain: <name or —> ·
+          pages: <urls of the fixes above> · queries: — · note: run after the fixes ship and a newer crawl exists
 ```
 
 ## Worked example

@@ -116,6 +116,10 @@ both.
 - A short review: grounded-facts check, gaps vs outline, internal links to add.
 - What the user should edit before publishing — never claim publish-ready
   without the owner reviewing facts.
+- A closing `[handoff]` line (FOUNDATIONS §0.5): `next: /seo-internal-linking`
+  (Spider) to wire the new page in, or `/seo-progress-report` once it's
+  published and re-crawled; `pages:` the pages that should link to it;
+  `queries:` its target keywords.
 
 ## Guardrails
 

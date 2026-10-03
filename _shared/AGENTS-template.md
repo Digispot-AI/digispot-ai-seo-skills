@@ -1,4 +1,4 @@
-<!-- digispot-seo:begin v1 -->
+<!-- digispot-seo:begin v2 -->
 # Digispot SEO — routing for this repo
 
 This repo is bound to a Digispot SEO project. SEO work here is done through the
@@ -20,7 +20,24 @@ and continue with plain MCP tools).
 | orphan pages / internal links / link equity / "buried pages" | `/seo-internal-linking` *(needs the Spider app)* |
 
 A bare SEO question with no clear intent → ask which of these they want, or
-default to `/seo-quick-wins` for "help me improve".
+default to `/seo-quick-wins` for "help me improve". Never ask the user to type a
+slash command — invoke the skill yourself.
+
+## Multi-step asks — run the chain yourself
+
+| The user says (any phrasing of)… | Chain | It pauses for… |
+|---|---|---|
+| "fix my SEO" / "full SEO pass" / "do everything" | `/seo-audit` → `/seo-quick-wins` → *(user ships the fixes)* → `/seo-progress-report` | starting a crawl or a paid cloud audit; then waits until fixes ship and a newer crawl exists |
+| "grow my traffic" / "get more clicks" | `/seo-striking-distance` → `/seo-content-strategy` → `/seo-create-content` | which gap to write; the draft's AI credits |
+| "beat <rival>" / "outrank <rival>" | `/seo-competitor` → `/seo-content-strategy` → `/seo-create-content` | the backlink fetch's DATA credits; the draft's AI credits |
+
+- Run each step, give a one-line summary, then start the next step — the user
+  does not need to ask.
+- Each skill ends with a `[handoff]` line; the next skill starts from its
+  pages and queries (FOUNDATIONS §0.5).
+- Pause only for credit consent, a choice only the user can make, or work the
+  user has to ship first. When pausing, say what comes next and what resumes it.
+- "Just the audit" or a single named skill → run that skill alone, no chain.
 
 ## Detect the servers ONCE per session
 
