@@ -58,6 +58,16 @@ they complement rather than duplicate each other:
   Page-level artifacts (screenshots, site graph, device comparison, `list_pages`
   filters) don't exist in the cloud — say so rather than improvising.
 
+**When a server can't be used:**
+
+- **No Digispot tools offered at all** — a server that is configured but down
+  offers no tools, so you can't tell "not added" from "not reachable". Say both
+  possibilities: Spider → is the app open? Platform → run `/mcp` and check the
+  `digispot` server's status. Then stop.
+- **A Platform call returns 401 / "Invalid … credentials"** — the `mcp_` key is
+  wrong or revoked. Say so and link a new key:
+  https://app.digispot.ai/settings/connected-apps/mcp. Retry at most once.
+
 **Routing rules (which server answers which question):**
 
 | Question lives in… | Server | Tools |
@@ -122,6 +132,8 @@ output with one line naming the natural next skill and what it should start from
   `next`, start from its pages/queries instead of re-discovering them. Still
   apply the freshness checks, and widen the search if the shortlist is thin.
   Ignore it if the user has since changed the subject.
+- **Setting `chain:`** — only when the user's ask matched a multi-step plan in
+  the `AGENTS.md` routing block. A single skill, named or routed, is `chain: —`.
 - **Running a chain:** when `chain:` is set (the user asked for a multi-step
   plan — see the `AGENTS.md` routing block), give a one-line summary of this
   step and invoke `next` straight away, without asking the user to type it.
@@ -166,7 +178,7 @@ combined "credits left" figure.**
 | `digispot_mentions_timeseries_summary` | Same as `digispot_mentions_lookup` | 24h cache. `digispot_mentions_timeseries` (free) covers your own tracked window |
 | `digispot_mentions_top_pages_refresh` | Same as `digispot_mentions_lookup` | 24h cache. `digispot_mentions_top_pages` (free) ranks from your own tracking history |
 | `digispot_content_generate` | **12 AI** (2 planning + 10 draft) | **×3 on an advanced text model — a measured run cost 36.** A failed plan auto-restores the planning credits; don't panic-retry |
-| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT** | Not pooled. Scales with `crawlBudget` — read the config first |
+| `digispot_run_audit` | **1 SITE_AUDIT + crawlBudget × PAGE_AUDIT**, plus the config's add-ons | The crawl isn't pooled — read the config first. Add-ons, both on by default: **content opportunities** = 3 AI per topic cluster the run finds (×3 on an advanced model; a measured 50-page run found 6 clusters = 54 AI), **backlinks** = 2 DATA the first time the domain is fetched in a billing period |
 | `digispot_create_project` | 1 project slot | Not pooled. Only when the user explicitly wants the site on the Platform |
 
 Everything else — all audit/config/issue/insight reads, `digispot_backlinks_trend`,
@@ -175,26 +187,40 @@ Everything else — all audit/config/issue/insight reads, `digispot_backlinks_tr
 cached GSC/GA, `digispot_content_generate_status` polling, config CRUD — is
 **free**.
 
+**Keep `digispot_audit_issues` small.** Always filter by `severity`, `category`
+or `issueKey` and keep `limit` at 50 or less — page with `pageNumber` if you
+need more. An unfiltered `limit: 200` returns ~200K characters and buries the
+session.
+
 **The spend protocol (extends "never silently spend"):**
 
 1. `digispot_usage_limits` (free) → read `creditPools` for the pool that tool
    draws on, and `costPerCall` for what it costs. Never assume a cost: the tool
    reports the live weights, and they change. Zero remaining → relay the limit
-   and the upgrade path, don't retry, don't work around.
+   and the upgrade link (https://app.digispot.ai/settings/billing-subscription),
+   don't retry, don't work around.
 2. **Batched consent, priced from the pool.** One ask per batch with real
    numbers — *"validating 12 keywords = 12 DATA credits, you have 508 — go?"*
    — never 12 separate asks. For AI work, multiply: *"3 drafts = 36 AI credits
    (12 each), you have 3,010."*
-3. **`digispot_run_audit` gets its own quote.** It isn't pooled. Read the config
-   first (`digispot_get_audit_config`) and quote actual numbers: *"this run = 1
-   site audit + up to <crawlBudget> page audits; you have <n> and <m> left —
-   go?"* A generic "this costs credits" under-informs by up to 50×.
+3. **`digispot_run_audit` gets its own quote.** Read the config first
+   (`digispot_get_audit_config`) and quote actual numbers, add-ons included:
+   *"this run = 1 site audit + up to <crawlBudget> page audits (you have <n> and
+   <m> left), plus 3 AI per topic cluster for content opportunities (9 on an
+   advanced model; a 50-page run found 6–7 clusters) and 2 DATA for backlinks if
+   not fetched this month (you have <ai> AI, <data> DATA) — go?"* The cluster
+   count is only known after the crawl, so quote the rate and an example, not a
+   total. Offer to switch an add-on off
+   (`contentOpportunitiesEnabled` / `backlinksEnabled` = false) if the user only
+   wants the audit. A generic "this costs credits" under-informs by up to 50×.
 4. **`digispot_cancel_audit` is the refund valve** — free, and restores unused
    SITE_AUDIT/PAGE_AUDIT while a run is QUEUED/PICKED/RUNNING. Mention it when
    starting a run; use it if the user changes their mind.
-5. **Plan gates are answers, not obstacles.** "Active subscription required" or
-   a FREE-plan lifetime AI-content cap is the session's answer — relay it once
-   and fall back to the free path (same discipline as the Spider tier-gate rule).
+5. **Plan gates are answers, not obstacles.** "Active subscription required",
+   a used-up project slot or a FREE-plan lifetime AI-content cap is the
+   session's answer — relay it once with the upgrade link
+   (https://app.digispot.ai/settings/billing-subscription) and fall back to the
+   free path (same discipline as the Spider tier-gate rule).
 
 ---
 

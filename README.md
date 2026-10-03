@@ -69,7 +69,7 @@ lookups) and **AI** (drafts, summaries, images):
 | `digispot_backlinks_anchors`, `digispot_backlinks_competitors` | 1 DATA, only on a fresh fetch; cached reads are free |
 | `digispot_mentions_lookup`, `digispot_mentions_compare`, `digispot_mentions_timeseries_summary`, `digispot_mentions_top_pages_refresh` | Variable DATA, only on a fresh fetch; 24h cache hits are free |
 | `digispot_content_generate` | 12 AI (×3 on an advanced model) |
-| `digispot_run_audit` | 1 site audit + crawlBudget × page audits (not pooled) |
+| `digispot_run_audit` | 1 site audit + crawlBudget × page audits (not pooled), plus add-ons that are on by default: content opportunities = 3 AI per topic cluster found (×3 on an advanced model), backlinks = 2 DATA on the domain's first fetch each billing period |
 | `digispot_create_project` | 1 project slot (not pooled) |
 
 Before any of them, a skill will:
@@ -78,7 +78,8 @@ Before any of them, a skill will:
 2. Ask once **with real numbers** — *"validating 12 keywords = 12 DATA credits,
    you have 508 — go?"* — batched, never one prompt per call.
 3. Quote variable costs precisely: a cloud audit is `1 site + crawlBudget × page`,
-   read from your actual config before asking.
+   read from your actual config before asking, plus the AI and DATA its add-ons
+   use (content opportunities, backlinks).
 
 Free tools never prompt. A running cloud audit can be cancelled for a refund of
 unused credits. Full rules: [`_shared/seo-mcp-foundations.md`](_shared/seo-mcp-foundations.md) §0.6.
