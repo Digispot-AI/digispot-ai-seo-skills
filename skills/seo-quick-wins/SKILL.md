@@ -26,7 +26,7 @@ Reach for a sibling instead when: the user wants the *complete* picture →
 2. **Pull the win lists:**
    - `get_quick_wins { crawlId, limit: 20 }` — Digispot's own ROI ranking. Core.
    - GSC connected → also `get_issues_with_traffic { crawlId }` and
-     `get_high_traffic_at_risk { crawlId, minClicks: 10 }` to weight by real
+     `get_high_traffic_at_risk { minClicks: 10 }` (project-scoped: reads the latest completed crawl) to weight by real
      traffic.
 3. **Filter for ease.** Keep only fixes that are genuinely cheap: title/meta
    edits, a canonical tag, one redirect, an alt text, a missing H1, an internal

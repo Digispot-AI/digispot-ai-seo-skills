@@ -26,7 +26,7 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
 2. **Find striking-distance demand:**
    - `get_gsc_import_top_queries { strikingDistance: true, limit: 30 }` —
      position 8–20 queries: high impressions, low clicks, close to page 1.
-   - `get_high_traffic_at_risk { crawlId, minClicks: 10 }` — pages with real
+   - `get_high_traffic_at_risk { minClicks: 10 }` (project-scoped: reads the latest completed crawl) — pages with real
      traffic that *also* carry issues (fixing these protects + grows).
    - **If keywords are imported:** `get_keywords { section: "opportunities" }` —
      the `improve` lane is this skill's exact target (imported keywords at GSC
@@ -35,7 +35,7 @@ and suggest connecting GSC, then offer `/seo-audit` as the non-GSC fallback.
      like "50K+" are banded floors — never sum them. Skip gracefully if the
      tool reports no keywords or a plan gate.
 3. **Correlate rank × on-page problem:**
-   - `get_google_opportunities { crawlId, limit: 20 }` — the unified score
+   - `get_google_opportunities { limit: 20 }` (project-scoped: reads the latest completed crawl) — the unified score
      (traffic × severity × rank proximity). This is the master list; lead here.
    - `get_issues_with_traffic { crawlId }` — the on-page issues ranked by GSC
      clicks-at-risk. This is the issue-side spine of "high-traffic pages that

@@ -55,8 +55,10 @@ Decide freshness:
   start_crawl { }                 → returns device group + crawl IDs
   wait_for_crawl { crawlId }      → blocks until done (raise timeoutSec for big sites)
   ```
-  `start_crawl` device modes (desktop/mobile/tablet) come from project config.
-  For Core Web Vitals / JS-rendered sites add `useBrowserFetcher: true`.
+  `start_crawl` device modes (desktop/mobile/tablet) come from project config,
+  and pages are always rendered in a real browser (Core Web Vitals included).
+  If the project has an unfinished (paused/blocked/stalled) audit, `start_crawl`
+  refuses: resume it with `resume_crawl`, or pass `startFresh: true` on the user's say-so.
   For full indexation coverage add `wideSitemapDiscovery: true`.
 
 Never invent a crawlId. If `list_crawls` is empty and the user won't authorize a
@@ -354,7 +356,7 @@ between installs; resolve the id from `list_workflows` by matching the recipe
 | Striking-Distance Keywords → CSV | *(none)* | Position-≤20 queries, prioritized CSV |
 | High-Traffic Pages at Risk → CSV | *(none)* | Traffic-weighted fix list, CSV |
 | Quick Wins to Spreadsheet | `crawlId` | Prioritized quick-wins CSV |
-| Traffic & Engagement Report (GSC+GA4) | *(none)* | Combined traffic + engagement report |
+| Traffic & Engagement Report (GSC + GA4) | *(none)* | Combined traffic + engagement report |
 
 **Diagnose-vs-produce — the consent rule.** Reads are free to run. A workflow that
 *generates or spends* (any AI draft/rewrite, or a recipe that uses cloud credits

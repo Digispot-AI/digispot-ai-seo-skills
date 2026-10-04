@@ -46,9 +46,11 @@ Reach for a sibling instead when: still deciding WHAT to write →
      at the site's existing covers. If a consistent cover template exists,
      match it (prefer a template/code-generated cover over free generation) —
      one "nice" off-template cover in a uniform set is a visual regression.
-     If the app has brand guidelines configured (colors, fonts, style), pass
-     them via `imageNote`/`coverStyle`; if not, suggest setting them up in
-     the app's brand/settings page.
+     If the app has brand guidelines configured, describe colors and mood in
+     `imageNote` and pick `coverStyle` from its listed values only
+     (`list_workflows { workflowId }`); if not, suggest setting them up in the
+     app's brand/settings page. For exact hex colors, title side or pixel size,
+     make the cover with `/seo-create-image`.
    If a preflight tool is not exposed by this MCP build, that's a version gap,
    not an error: name the missing capability, continue on the degraded path,
    and state what quality is lost.
@@ -65,7 +67,8 @@ Reach for a sibling instead when: still deciding WHAT to write →
    "AI - Page Writer (MDX)"; standalone images use "AI - Image Studio".
 6. **Reference images — match them to the topic via the Knowledge base.**
    `list_image_references` returns labeled references ("Dr. Priya — headshot",
-   purpose person/product/logo/style). Don't pick "a person" — pick the RIGHT
+   with a purpose label — person/product/logo/style; the label is for you, the
+   recipe's image type decides how a reference is used). Don't pick "a person" — pick the RIGHT
    one: cross-reference the knowledge context from step 3 to find who or what
    this page is actually about (the doctor who leads the department being
    written about, the exact product/SKU, the branch being featured), then

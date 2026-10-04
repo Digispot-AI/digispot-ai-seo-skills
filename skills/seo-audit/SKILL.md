@@ -31,7 +31,7 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    this snapshot.
 3. **Get the traffic-weighted spine of the audit:**
    - GSC connected → `get_issues_with_traffic { crawlId }` and
-     `get_high_traffic_at_risk { crawlId }`. These ARE your ranking — lead here.
+     `get_high_traffic_at_risk` (project-scoped: reads the latest completed crawl). These ARE your ranking — lead here.
    - No GSC → `get_critical_issues { crawlId }` + `get_quick_wins { crawlId }`,
      rank by severity × ease, and note the missing traffic signal.
 4. **Sweep the audit dimensions** (these replace separate skills). Pull each,
@@ -53,7 +53,7 @@ content → `/seo-content-strategy`; verifying past fixes → `/seo-progress-rep
    - **Mobile parity:** `get_device_comparison { crawlId }` then
      `get_device_url_gaps { deviceGroup }` (note: this one takes the
      **deviceGroup**, not a crawlId — get it from `get_device_comparison`).
-   - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema" }`
+   - **Schema/AEO + on-page:** `list_issue_definitions { category: "schema-markup" }`
      / `{ category: "aeo" }` to learn the rubric, then `get_issue_pages` for the
      ones flagged on this crawl.
    - **Off-page / backlinks**: a full audit covers off-page authority, not just
