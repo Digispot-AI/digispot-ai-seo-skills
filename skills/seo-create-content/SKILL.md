@@ -88,6 +88,10 @@ Reach for a sibling instead when: still deciding WHAT to write →
    `imagePath` is app-internal and unreachable from outside: to place the cover
    in the site repo call `download_workflow_image { runId }` (Spider 1.0.8+;
    `format: png|jpeg` to convert) and use the absolute path it returns.
+   Open the downloaded cover and review it the way `/seo-create-image` step 6
+   does (title in empty space and readable, no stray text, the right colors).
+   To redo only the cover, or for a cover with an exact title side, palette or
+   pixel size, use `/seo-create-image`.
 8. **Review pass.** Read the produced draft against the knowledge context from
    step 2: flag any claim not grounded in owner facts, thin sections vs the
    gap's outline, and missing internal links to the cluster's existing pages

@@ -20,7 +20,7 @@ JSON-LD, redirect maps, internal-link targets) you can paste.
      The app crawls your site and exposes the `digispot-seo` MCP server,
      bound to your project via .mcp.json (--project).
 2. Clone this repo and run ./install.sh
-     Installs the eight skills into Claude Code.
+     Installs the nine skills into Claude Code.
 3. Invoke a skill in Claude Code — e.g. /seo-audit
      Claude drives the MCP and hands you a ranked, paste-ready fix plan.
 ```
@@ -60,8 +60,9 @@ Set `CLAUDE_SKILLS_DIR` to install somewhere other than `~/.claude/skills`.
 | **`/seo-competitor`** | Compare your page head-to-head against a competitor's ranking page — point-by-point gaps + a prioritized plan to beat them, including the backlink gap. Can also start tracking a rival domain in the Spider (1.0.9+). |
 | **`/seo-progress-report`** | Compare crawls + GSC/GA4 trends to prove which fixes worked and what regressed. |
 | **`/seo-create-content`** | Turn a content gap or target keyword into a publish-ready page draft with an on-brand cover image, grounded in the owner's Knowledge base (Spider 1.0.7+). |
+| **`/seo-create-image`** | Generate one on-brand image (blog cover with a readable title, working scene with the owner's real people, or product shot) with exact title side, colors and size, then review it before handing it over (Spider 1.0.7+; layout controls 1.0.10+). |
 
-All eight share one operating procedure: [`_shared/seo-mcp-foundations.md`](_shared/seo-mcp-foundations.md)
+All nine share one operating procedure: [`_shared/seo-mcp-foundations.md`](_shared/seo-mcp-foundations.md)
 (copied into each skill at install time so it travels self-contained). Several skills
 can also **run workflows** — curated recipes that *produce* things (AI title/meta and blog
 drafts, a competitor comparison, a backlink profile, a combined GSC+GA4 report) — not just

@@ -313,14 +313,21 @@ build a combined GSC+GA4 report. Three tools drive them:
 | Need | Tool |
 |---|---|
 | See the recipes available for this project (+ their inputs) | `list_workflows` |
+| One recipe's full input contract (allowed values + their meaning, formats, defaults) | `list_workflows { workflowId }` |
 | Start a recipe | `run_workflow { workflowId, input }` → returns a `runId` |
+| Generate one image with typed options + inline preview (Spider 1.0.10+) | `generate_image { brief, profile?, style?, titleSide?, … }` — see `/seo-create-image` |
 | Get a run's status + result | `get_workflow_run { runId }` |
-| Pull a generated image to a local file (Spider 1.0.8+) | `download_workflow_image { runId, stepKey?, format? }` → absolute path you can copy into the site repo |
+| Pull a generated image to a local file (Spider 1.0.8+) | `download_workflow_image { runId, stepKey?, format?, variant? }` → absolute path you can copy into the site repo; `variant: "raw"` = the cover without its composited title (1.0.10+) |
 
 **The pattern (always these four steps):**
 
 1. `list_workflows` → find the recipe by its **name** (e.g. "Competitor Page
-   Comparison"), read its `id` and its declared inputs.
+   Comparison"), read its `id` and its declared inputs. Before passing any
+   `select` input, read `list_workflows { workflowId }` (1.0.10+): it lists the
+   exact allowed values and what each means. Pass values **verbatim** — a value
+   that is not listed rejects the run with the valid list, and a key the recipe
+   does not declare is ignored and reported back in an `IGNORED` line (never
+   claim an ignored option took effect).
 2. `run_workflow { workflowId: <that id>, input: { …the recipe's inputs } }`
    → returns `{ runId }`. **`projectId` is injected automatically — never pass it.**
    Inputs with a declared default (e.g. the page-draft recipe's `pageType`) may be
@@ -342,6 +349,7 @@ between installs; resolve the id from `list_workflows` by matching the recipe
 | Heading Structure Cleanup | `url` | A clean H1–H6 outline |
 | Competitor Page Comparison | `urlA`, `urlB`, `fetchBacklinks?` | Point-by-point verdict + beat-them plan + backlink gap |
 | AI - Page Writer (MDX) *(renamed in Spider 1.0.4; older installs may still show "AI Page Draft (MDX)" or "AI Blog Draft (MDX)" — match whichever `list_workflows` returns)* | `title`, `keyword`, `pageType?` (`blog`\|`service`\|`cost`\|`comparison`\|`location`, default `blog`; Spider 1.0.9 and older: `blog`\|`service`), `intent?`, `location?`, `outlineHints?` (must-cover points, one per line), `mode?` (`new`\|`improve`, 1.0.10+) + `targetUrl?` (the page to rewrite in place) | An on-brand MDX draft grounded in the site's knowledge graph (no repeated sections, links up to the topic's main page) plus a list of existing pages that should link to it — `blog` article (length by `length`); `service` 900–1300 words; `cost` 1000–1600 with price ranges and caveats; `comparison` 1200–2000; `location` 800–1200; `improve` keeps the page's URL, facts and ranking searches |
+| AI - Image Studio *(1.0.10+: prefer the typed `generate_image` tool; see `/seo-create-image`)* | `brief`, `profile?` (`people-scene`\|`product-shot`\|`blog-cover`), `style?` (`photorealistic`\|`illustration`\|`flat-vector`\|`minimal`\|`3d-render`), `referenceImage?` (`library:<id>`), `coverTitle?`, `coverDescription?`, `imageNote?`, `aspectRatio?`; 1.0.10+: `titleSide?`, `palette?`, `outputSize?`, `scrim?`, `textColor?`, `fontFamily?` | One rendered image (cover / working scene / product shot) with alt text; covers get the exact title composited in brand colors in measured empty space |
 | Project Backlink Profile | *(none)* | Referring domains, dofollow, authority |
 | Striking-Distance Keywords → CSV | *(none)* | Position-≤20 queries, prioritized CSV |
 | High-Traffic Pages at Risk → CSV | *(none)* | Traffic-weighted fix list, CSV |
