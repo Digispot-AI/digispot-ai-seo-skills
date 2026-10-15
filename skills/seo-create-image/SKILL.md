@@ -79,9 +79,14 @@ Reach for a sibling instead when the page itself does not exist yet →
    - **Brand:** when no `palette` is given, colors come from the project's brand
      kit; for a title, so does the font. If the site has a fixed cover template
      (look at a few existing covers first), match its title side, colors and size.
-   - **Exact title text:** `coverTitle` (and `coverDescription`) are composited
-     programmatically in the brand font, so the wording comes out exactly as
-     typed. Never ask the image model to draw words.
+   - **Exact title text:** `coverTitle` is composited programmatically in the
+     brand font, so the wording comes out exactly as typed. Never ask the image
+     model to draw words. It is drawn as a short headline: a brand suffix
+     (`| Brand`) or long sub-clause is dropped, and a title too long to sit whole
+     in the space (about 60 characters) ships the cover text-free with a notice.
+     `coverDescription` is drawn only as a short tagline (one or two lines); a
+     longer one is left off, so keep a meta description in the page, not on the
+     picture. With no `coverTitle` the subject is centred and no space is reserved.
 
 4. **Confirm, then run.** Every render is billed to the owner's image key (each
    result reports its `cost`). State the profile, style, title side, colors and
@@ -97,8 +102,9 @@ Reach for a sibling instead when the page itself does not exist yet →
      matters. Relay it.
    - `overlay.side` / `overlay.placement`: `clear` means the title sits in empty
      space on the requested side; `switched` means the render left the OTHER side
-     empty and the title went there (tell the user); `crowded` means no clear side
-     existed and the title sits on a backing over the art (re-run, see step 7).
+     empty and the title went there (tell the user). When no clear side exists the
+     cover ships text-free (`overlay.applied` is `false`, with a notice) rather
+     than drawing over the subject: re-run, see step 7.
    - `overlay.contrast`: the estimated WCAG contrast of the title. Below 4.5 is
      not AA; say so.
    - A title was asked for but `overlay.applied` is `false`: the image shipped
